@@ -1,0 +1,6 @@
+requests==2.31.0
+beautifulsoup4==4.12.2
+supabase==2.3.4
+pandas==2.2.0
+numpy==1.26.3
+python-dotenv==1.0.1 
