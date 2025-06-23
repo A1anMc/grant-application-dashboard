@@ -22,6 +22,7 @@
     "build:lib": "tsc && vite build --config vite.lib.config.ts",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 10",
     "preview": "vite preview",
+    "start": "node server.js",
     "test": "jest",
     "prepare": "npm run build:lib",
     "typecheck": "tsc --noEmit"
@@ -30,6 +31,7 @@
     "@supabase/supabase-js": "^2.50.0",
     "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.17",
+    "express": "^4.21.2",
     "lucide-react": "^0.522.0",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
