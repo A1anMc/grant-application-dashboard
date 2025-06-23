@@ -67,7 +67,7 @@ export default function MyGrantsWorkspace({ onGrantClick }: MyGrantsWorkspacePro
       setGrants(prev => prev.map(grant =>
         grant.id === grantId ? { ...grant, status: newStatus } : grant
       ))
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to update grant status. Please try again.')
     }
   }

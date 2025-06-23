@@ -82,7 +82,7 @@ class DemoGrantDiscovery:
                 recurrence="Annual",
                 urgency="Hot",
                 score=95,
-                estimated_eligibility="Very High - directly aligns with First Nations storytelling focus"
+                estimated_eligibility="Very High - Shadow Goose has established First Nations partnerships"
             )
         ])
         

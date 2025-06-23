@@ -122,11 +122,11 @@ if (isDemoMode) {
       signInWithPassword: () => Promise.resolve({ data: null, error: null }),
       signOut: () => Promise.resolve({ error: null })
     },
-    from: (table: string) => ({
-      select: (columns?: string) => ({
-        order: (column: string, options?: any) => Promise.resolve({ data: mockGrants, error: null }),
-        eq: (column: string, value: any) => Promise.resolve({ data: mockGrants.filter(item => item[column] === value), error: null }),
-        neq: (column: string, value: any) => Promise.resolve({ data: mockGrants.filter(item => item[column] !== value), error: null }),
+      from: (_table: string) => ({
+    select: (_columns?: string) => ({
+      order: (_column: string, _options?: any) => Promise.resolve({ data: mockGrants, error: null }),
+      eq: (column: string, value: any) => Promise.resolve({ data: mockGrants.filter(item => (item as any)[column] === value), error: null }),
+      neq: (column: string, value: any) => Promise.resolve({ data: mockGrants.filter(item => (item as any)[column] !== value), error: null }),
         limit: (count: number) => Promise.resolve({ data: mockGrants.slice(0, count), error: null }),
         single: () => Promise.resolve({ data: mockGrants[0] || null, error: null })
       }),
@@ -136,7 +136,7 @@ if (isDemoMode) {
       upsert: (data: any) => Promise.resolve({ data, error: null })
     }),
     storage: {
-      from: (bucket: string) => ({
+      from: (_bucket: string) => ({
         upload: () => Promise.resolve({ data: { path: 'demo-file.pdf' }, error: null }),
         download: () => Promise.resolve({ data: new Blob(), error: null }),
         remove: () => Promise.resolve({ data: null, error: null })

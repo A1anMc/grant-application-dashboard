@@ -114,20 +114,12 @@ function DemoApp() {
 }
 
 function App() {
-  // Check for demo mode immediately - before any state initialization
-  const urlParams = new URLSearchParams(window.location.search)
-  const isDemoMode = urlParams.get('demo') === 'true'
-  
-  if (isDemoMode) {
-    console.log('Demo mode detected - rendering demo app')
-    return <DemoApp />
-  }
-
+  // Always initialize hooks first to comply with rules of hooks
   const [appState, setAppState] = useState<AppState>('loading')
   const [currentPage, setCurrentPage] = useState<CurrentPage>('dashboard')
   const [user, setUser] = useState<User | null>(null)
   const [selectedGrant, setSelectedGrant] = useState<Grant | null>(null)
-
+  
   // Debug logging for state changes
   useEffect(() => {
     console.log('App state changed to:', appState)
@@ -160,11 +152,11 @@ function App() {
     }, 3000) // Reduced to 3 seconds
     
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event: any, session: any) => {
+      if (_event === 'SIGNED_IN' && session?.user) {
         setUser({ id: session.user.id, email: session.user.email || '' })
         await checkProfile(session.user.id)
-      } else if (event === 'SIGNED_OUT') {
+      } else if (_event === 'SIGNED_OUT') {
         setUser(null)
         setAppState('auth')
       }
@@ -290,6 +282,15 @@ function App() {
       default:
         return <GrantDiscoveryDashboard onGrantClick={handleGrantClick} />
     }
+  }
+
+  // Check for demo mode after all hooks are initialized
+  const urlParams = new URLSearchParams(window.location.search)
+  const isDemoMode = urlParams.get('demo') === 'true'
+  
+  if (isDemoMode) {
+    console.log('Demo mode detected - rendering demo app')
+    return <DemoApp />
   }
 
   // Loading state

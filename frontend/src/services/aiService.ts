@@ -76,6 +76,7 @@ class AIService {
           positive: [
             'Organization type matches grant requirements',
             'Strong track record in similar projects',
+            'Established First Nations partnerships provide authentic collaboration',
             'Geographic location is eligible',
             'Organization size fits criteria'
           ],
@@ -90,8 +91,8 @@ class AIService {
         },
         recommendations: [
           'Emphasize past successes in community engagement',
+          'Highlight established First Nations partnerships and cultural protocols',
           'Include detailed budget breakdown with contingencies',
-          'Highlight partnerships with local organizations',
           'Provide clear measurement metrics for outcomes'
         ],
         riskFactors: [

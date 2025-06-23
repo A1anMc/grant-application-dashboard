@@ -66,6 +66,7 @@ export default function GrantDetailPage({ grant, onBack }: GrantDetailPageProps)
           'Organization type matches grant criteria',
           'Focus area aligns with funder priorities',
           'Previous experience in similar projects',
+          'Established First Nations partnerships provide authentic collaboration',
           'Strong community partnerships'
         ],
         potentialDisqualifiers: [
@@ -80,7 +81,7 @@ export default function GrantDetailPage({ grant, onBack }: GrantDetailPageProps)
       }
 
       setEligibilityReport(mockReport)
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to check eligibility. Please try again.')
     } finally {
       setCheckingEligibility(false)
@@ -178,7 +179,7 @@ export default function GrantDetailPage({ grant, onBack }: GrantDetailPageProps)
       // Clear the input for next question
       setAiQuestion('');
 
-    } catch (err) {
+    } catch (_err) {
       setError('Failed to generate response. Please try again.')
     } finally {
       setGeneratingResponse(false)

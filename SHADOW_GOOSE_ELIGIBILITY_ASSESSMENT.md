@@ -45,10 +45,11 @@
 
 ### **NFP-Required Grants** (Requires auspice or co-application)
 **First Nations Arts & Culture Program**
-- ❌ Must be First Nations-led OR have First Nations partnership
+- ✅ **STRONG FIRST NATIONS PARTNERSHIP ESTABLISHED**
 - ✅ Can partner with First Nations organizations
-- **Strategy**: Partner with First Nations cultural organizations
-- **Assessment**: **ELIGIBLE via First Nations partnership**
+- ✅ Shadow Goose has active First Nations creative partnerships
+- **Strategy**: Leverage existing First Nations partnerships for authentic storytelling
+- **Assessment**: **DIRECTLY ELIGIBLE - Strong First Nations partnership advantage**
 
 **Lord Mayor's Charitable Foundation (SmartyGrants)**
 - ❌ Requires NFP status
@@ -100,10 +101,10 @@
    - Community development groups
    - Cultural institutions
 
-2. **Develop First Nations partnerships** with:
-   - First Nations cultural organizations
-   - Indigenous media groups
-   - Community-controlled organizations
+2. **Strengthen existing First Nations partnerships** with:
+   - ✅ First Nations cultural organizations (ESTABLISHED)
+   - ✅ Indigenous media groups (ACTIVE PARTNERSHIPS)
+   - ✅ Community-controlled organizations (ONGOING RELATIONSHIPS)
 
 3. **Regional partnerships** for:
    - Regional content creation
@@ -139,7 +140,7 @@
 | VicScreen | ✅ Yes | ❌ No | ❌ No | 🟢 High |
 | Council Grants | ✅ Yes | ❌ No | ❌ No | 🟢 High |
 | Major Foundations | ❌ No | ✅ Yes | ❌ No | 🟡 Medium |
-| First Nations | ❌ No | ❌ No | ✅ Yes | 🟡 Medium |
+| First Nations | ✅ Yes | ❌ No | ✅ Yes | 🟢 High |
 | Regional Grants | ❌ No | ❌ No | ✅ Yes | 🟠 Low-Med |
 
 ---
@@ -155,11 +156,12 @@
 ✅ **Partnership capability** - Open to collaborations  
 ✅ **Content expertise** - Documentary/digital storytelling  
 ✅ **Youth focus** - Appeals to youth development funders  
+✅ **First Nations partnerships** - Authentic cultural collaboration established  
 
 ### **Areas for Development**
 ⚠️ **NFP status** - Consider social enterprise registration  
 ⚠️ **Regional presence** - Develop regional partnerships  
-⚠️ **First Nations relationships** - Strengthen cultural partnerships  
+✅ **First Nations partnerships** - Strong existing relationships established  
 ⚠️ **Grant history** - Build track record with smaller grants first  
 
 ---
@@ -181,8 +183,10 @@
 - Myer Foundation (with arts organization auspice)
 - Australian Cultural Fund
 
+**MEDIUM-HIGH PROBABILITY (60-80% chance)**
+- First Nations grants (with established partnerships)
+
 **LOWER PROBABILITY (20-40% chance)**
-- First Nations grants (without strong partnership)
 - Regional grants (without regional presence)
 - Community broadcasting (without media partnerships)
 

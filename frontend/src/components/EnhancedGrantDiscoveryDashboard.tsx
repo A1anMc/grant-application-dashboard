@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, DollarSign, Clock, Target, Filter, Search, ExternalLink, Download, Star, AlertCircle, Zap, Eye, ArrowRight } from 'lucide-react';
+import { Calendar, DollarSign, Target, Search, ExternalLink, Download, Star, Zap, ArrowRight } from 'lucide-react';
 
 interface Grant {
   title: string;
@@ -344,7 +344,7 @@ const EnhancedGrantDiscoveryDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    let filtered = grants.filter(grant => {
+    const filtered = grants.filter(grant => {
       const matchesSearch = grant.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           grant.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           grant.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));

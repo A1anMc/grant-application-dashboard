@@ -292,7 +292,7 @@ class GrantDiscoveryScraper:
             "documentary": 25,
             "digital storytelling": 25,
             "social impact": 20,
-            "first nations": 20,
+            "first nations": 25,  # Increased due to established partnerships
             "youth": 15,
             "environmental": 15,
             "creative innovation": 15,
