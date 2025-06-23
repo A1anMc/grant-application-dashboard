@@ -1,43 +1,64 @@
-# Grant Management Application
+# SGE Grant Portal
 
-This is a web application for managing grant applications and opportunities. The project uses modern web technologies to provide a seamless experience for organizations seeking and managing grants.
-
-## Tech Stack
-
-### Frontend
-- React (Vite)
-- TypeScript
-- TailwindCSS for styling
-- Supabase JS Client for backend communication
-
-### Backend
-The backend is managed by Supabase, providing:
-- PostgreSQL Database
-- Authentication
-- Real-time subscriptions
-- Row Level Security
-- API Auto-generation
-
-## Getting Started
-
-1. Clone this repository
-2. Install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-3. Create a `.env.local` file in the frontend directory with your Supabase credentials:
-   ```
-   VITE_SUPABASE_URL=your_supabase_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+A simple grant discovery and management portal for Shadow Goose Productions.
 
 ## Features
-- Grant opportunity management
-- Organization profile management
-- AI-powered eligibility analysis
-- Grant source web scraping (via separate Python script) 
+
+- **Pure Express Backend**: Simple, reliable Node.js server
+- **Static Frontend**: Vanilla JavaScript, no React complexity
+- **Supabase Integration**: Uses real database if credentials provided
+- **Mock Data Fallback**: Works without database setup
+- **Single Command Startup**: Run from root directory
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Or use the startup script
+./start-app.sh
+```
+
+## Access Points
+
+- **Main App**: http://localhost:3001
+- **API Endpoint**: http://localhost:3001/api/grants
+- **Health Check**: http://localhost:3001/health
+
+## Project Structure
+
+```
+/SGE-GrantPortal
+├── server.js          # Express server
+├── index.html         # Static frontend
+├── api/
+│   └── grants.js      # Grants API logic
+├── mock/
+│   └── mockGrants.json # Mock data
+├── package.json       # Dependencies
+└── README.md
+```
+
+## Environment Variables
+
+To use Supabase (optional):
+```bash
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_key
+```
+
+Without these, the app will use mock data automatically.
+
+## Development
+
+```bash
+# Start with nodemon (auto-restart on changes)
+npm run dev
+
+# Start production server
+npm start
+``` 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SGE Grant Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .grant { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    .status { padding: 5px 10px; border-radius: 3px; color: white; font-size: 12px; }
+    .potential { background: #007bff; }
+    .drafting { background: #ffc107; color: black; }
+    .submitted { background: #6f42c1; }
+  </style>
+</head>
+<body>
+  <h1>SGE Grant Portal</h1>
+  <div id="results"></div>
+  <script>
+    fetch('/api/grants')
+      .then(r => r.json())
+      .then(data => {
+        const results = document.getElementById('results');
+        if (data.grants && data.grants.length > 0) {
+          results.innerHTML = data.grants.map(grant => `
+            <div class="grant">
+              <h3>${grant.name}</h3>
+              <p><strong>Funder:</strong> ${grant.funder}</p>
+              <p><strong>Amount:</strong> ${grant.amount_string}</p>
+              <p><strong>Due:</strong> ${grant.due_date}</p>
+              <span class="status ${grant.status}">${grant.status}</span>
+              <p>${grant.description}</p>
+            </div>
+          `).join('');
+        } else {
+          results.innerHTML = '<p>No grants found</p>';
+        }
+      })
+      .catch(err => {
+        document.getElementById('results').innerHTML = `<p>Error: ${err.message}</p>`;
+      });
+  </script>
+</body>
+</html> 
