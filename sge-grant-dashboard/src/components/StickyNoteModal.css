@@ -1,0 +1,254 @@
+.sticky-note-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 37, 69, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.sticky-note-modal {
+  background: #FFF9C4;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  transform: rotate(-1deg);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid #F4A261;
+}
+
+.sticky-note-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #FFF9C4;
+  z-index: 1;
+}
+
+/* Decorative tape */
+.note-tape {
+  position: absolute;
+  width: 40px;
+  height: 6px;
+  background: var(--warm-sand);
+  border-radius: 3px;
+  opacity: 0.8;
+}
+
+.note-tape-1 {
+  top: 10px;
+  right: 30px;
+  transform: rotate(-15deg);
+}
+
+.note-tape-2 {
+  top: 20px;
+  right: 20px;
+  transform: rotate(10deg);
+  background: var(--burnt-coral);
+}
+
+/* Paper clip */
+.note-paperclip {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  width: 14px;
+  height: 20px;
+  border: 2px solid var(--midnight-blue);
+  border-radius: 0 0 6px 6px;
+  transform: rotate(8deg);
+  opacity: 0.7;
+}
+
+.note-paperclip::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 5px;
+  border: 2px solid var(--midnight-blue);
+  border-radius: 6px 6px 0 0;
+}
+
+/* Note header */
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid rgba(244, 162, 97, 0.3);
+}
+
+.note-header h3 {
+  font-family: var(--font-headline);
+  font-size: 1.3rem;
+  color: var(--midnight-blue);
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  line-height: 1;
+}
+
+.close-btn:hover {
+  background: rgba(217, 93, 57, 0.1);
+  color: var(--burnt-coral);
+}
+
+/* Grant info */
+.note-grant-info {
+  margin-bottom: var(--spacing-lg);
+}
+
+.grant-title {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  color: var(--midnight-blue);
+  font-size: 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--burnt-coral);
+}
+
+/* Note content */
+.note-content {
+  margin-bottom: var(--spacing-lg);
+}
+
+.note-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: var(--spacing-md);
+  border: 2px solid rgba(244, 162, 97, 0.3);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
+  resize: vertical;
+  transition: var(--transition-fast);
+}
+
+.note-textarea:focus {
+  outline: none;
+  border-color: var(--burnt-coral);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(217, 93, 57, 0.1);
+}
+
+.note-textarea::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Note footer */
+.note-footer {
+  border-top: 2px solid rgba(244, 162, 97, 0.3);
+  padding-top: var(--spacing-md);
+}
+
+.note-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.note-actions button {
+  flex: 1;
+  font-size: 0.9rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.note-tips {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Animation */
+@keyframes stickyNoteAppear {
+  from {
+    opacity: 0;
+    transform: rotate(-1deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-1deg) scale(1);
+  }
+}
+
+.sticky-note-modal {
+  animation: stickyNoteAppear 0.3s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sticky-note-modal {
+    width: 95%;
+    padding: var(--spacing-lg);
+    transform: none;
+    max-height: 90vh;
+  }
+  
+  .sticky-note-modal::before {
+    display: none;
+  }
+  
+  .note-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .note-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .note-textarea {
+    min-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sticky-note-modal {
+    padding: var(--spacing-md);
+  }
+  
+  .note-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+  }
+  
+  .close-btn {
+    align-self: flex-end;
+  }
+} 

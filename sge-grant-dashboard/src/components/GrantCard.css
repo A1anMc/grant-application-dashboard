@@ -1,0 +1,269 @@
+.grant-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  transition: var(--transition-normal);
+  transform: rotate(-1deg);
+  border: 1px solid var(--light-gray);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.grant-card:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.grant-card.hovered {
+  z-index: 10;
+}
+
+/* Decorative tape */
+.card-tape {
+  position: absolute;
+  top: -2px;
+  right: 20px;
+  width: 40px;
+  height: 6px;
+  background: var(--warm-sand);
+  border-radius: 3px;
+  opacity: 0.8;
+  transform: rotate(-5deg);
+}
+
+/* Paper clip */
+.card-paperclip {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 16px;
+  height: 24px;
+  border: 2px solid var(--midnight-blue);
+  border-radius: 0 0 8px 8px;
+  transform: rotate(10deg);
+  opacity: 0.6;
+}
+
+.card-paperclip::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 6px;
+  border: 2px solid var(--midnight-blue);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Card header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+
+.grant-title h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--midnight-blue);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.3;
+}
+
+.eligibility-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  opacity: 0.6;
+}
+
+.action-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.action-btn.flagged {
+  opacity: 1;
+  color: var(--burnt-coral);
+}
+
+.action-btn.saved {
+  opacity: 1;
+  color: var(--accent-lime);
+}
+
+/* Card content */
+.card-content {
+  flex: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+.grant-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grant-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.meta-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.meta-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.meta-value.deadline {
+  color: var(--burnt-coral);
+  font-weight: 700;
+}
+
+/* Tags */
+.grant-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.tag {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--light-gray);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.handwritten-tag {
+  font-family: var(--font-handwritten);
+  background: var(--warm-sand);
+  color: var(--midnight-blue);
+  border-bottom: 2px solid var(--burnt-coral);
+  transform: rotate(-1deg);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Card footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.view-details-btn {
+  font-size: 0.85rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.source-verification {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.verified-source {
+  color: var(--accent-lime);
+  font-weight: 600;
+}
+
+.manual-source {
+  color: var(--warm-sand);
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .grant-card {
+    transform: none;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .grant-card:hover {
+    transform: scale(1.01);
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .card-actions {
+    align-self: flex-end;
+  }
+  
+  .grant-meta {
+    gap: var(--spacing-xs);
+  }
+  
+  .meta-item {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grant-card {
+    padding: var(--spacing-md);
+  }
+  
+  .grant-title h3 {
+    font-size: 1rem;
+  }
+  
+  .card-footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+  
+  .view-details-btn {
+    width: 100%;
+  }
+} 

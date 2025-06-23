@@ -6,10 +6,16 @@
       "funder": "Australia Council for the Arts",
       "description": "Supporting First Nations artists and cultural practitioners to create, present and distribute their work.",
       "amount_string": "$50,000 - $200,000",
-      "due_date": "2024-12-31",
+      "due_date": "2025-07-15",
       "status": "potential",
       "source_url": "https://example.com/grant1",
-      "created_at": "2024-01-01T00:00:00Z"
+      "created_at": "2024-01-01T00:00:00Z",
+      "tags": ["FIRST NATIONS", "ARTS", "CULTURE", "AUSTRALIAN STORIES"],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.95,
+        "reasoning": "Strong match with First Nations focus and arts/culture alignment"
+      }
     },
     {
       "id": 2,
@@ -17,10 +23,16 @@
       "funder": "Screen Australia",
       "description": "Development and production funding for documentary projects that reflect Australian stories.",
       "amount_string": "$100,000 - $500,000",
-      "due_date": "2024-11-30",
+      "due_date": "2025-08-31",
       "status": "drafting",
       "source_url": "https://example.com/grant2",
-      "created_at": "2024-01-02T00:00:00Z"
+      "created_at": "2024-01-02T00:00:00Z",
+      "tags": ["DOCUMENTARY", "FILM", "AUSTRALIAN STORIES"],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.92,
+        "reasoning": "Perfect match for documentary film production with Australian stories focus"
+      }
     },
     {
       "id": 3,
@@ -28,10 +40,16 @@
       "funder": "Creative Victoria",
       "description": "Supporting youth arts initiatives and community engagement projects.",
       "amount_string": "$25,000 - $100,000",
-      "due_date": "2024-10-31",
+      "due_date": "2025-09-30",
       "status": "submitted",
       "source_url": "https://example.com/grant3",
-      "created_at": "2024-01-03T00:00:00Z"
+      "created_at": "2024-01-03T00:00:00Z",
+      "tags": ["ARTS", "COMMUNITY", "SOCIAL IMPACT"],
+      "eligibility": {
+        "category": "eligible_with_auspice",
+        "confidence": 0.75,
+        "reasoning": "Good community and social impact focus, may need youth organization auspice"
+      }
     },
     {
       "id": 4,
@@ -39,10 +57,16 @@
       "funder": "National Indigenous Australians Agency",
       "description": "Funding for documentary projects that tell Indigenous Australian stories.",
       "amount_string": "$75,000 - $300,000",
-      "due_date": "2024-09-30",
+      "due_date": "2025-10-31",
       "status": "potential",
       "source_url": "https://example.com/grant4",
-      "created_at": "2024-01-04T00:00:00Z"
+      "created_at": "2024-01-04T00:00:00Z",
+      "tags": ["FIRST NATIONS", "DOCUMENTARY", "AUSTRALIAN STORIES"],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.98,
+        "reasoning": "Excellent match for Indigenous documentary storytelling"
+      }
     },
     {
       "id": 5,
@@ -50,10 +74,67 @@
       "funder": "Department of Infrastructure, Transport, Regional Development and Communications",
       "description": "Supporting arts and cultural activities in regional and remote Australia.",
       "amount_string": "$10,000 - $50,000",
-      "due_date": "2024-08-31",
+      "due_date": "2025-11-30",
       "status": "drafting",
       "source_url": "https://example.com/grant5",
-      "created_at": "2024-01-05T00:00:00Z"
+      "created_at": "2024-01-05T00:00:00Z",
+      "tags": ["ARTS", "CULTURE", "COMMUNITY"],
+      "eligibility": {
+        "category": "eligible_with_auspice",
+        "confidence": 0.68,
+        "reasoning": "Regional focus with arts/culture alignment, may need regional organization partnership"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Community Impact Documentary",
+      "funder": "Documentary Australia Foundation",
+      "description": "Funding for documentary films that create positive social change in Australian communities.",
+      "amount_string": "$30,000 - $150,000",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "https://example.com/grant6",
+      "created_at": "2024-01-06T00:00:00Z",
+      "tags": ["DOCUMENTARY", "COMMUNITY", "SOCIAL IMPACT", "AUSTRALIAN STORIES"],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.94,
+        "reasoning": "Strong documentary focus with community impact and Australian stories"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Indigenous Cultural Heritage",
+      "funder": "Aboriginal Affairs NSW",
+      "description": "Preserving and promoting Indigenous cultural heritage through creative projects.",
+      "amount_string": "$15,000 - $80,000",
+      "due_date": "2026-01-31",
+      "status": "potential",
+      "source_url": "https://example.com/grant7",
+      "created_at": "2024-01-07T00:00:00Z",
+      "tags": ["FIRST NATIONS", "CULTURE", "COMMUNITY"],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.89,
+        "reasoning": "Strong Indigenous cultural focus with community engagement"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Theatre Production Grant",
+      "funder": "Australia Council for the Arts",
+      "description": "Supporting professional theatre productions and performances.",
+      "amount_string": "$20,000 - $100,000",
+      "due_date": "2026-02-28",
+      "status": "potential",
+      "source_url": "https://example.com/grant8",
+      "created_at": "2024-01-08T00:00:00Z",
+      "tags": ["ARTS"],
+      "eligibility": {
+        "category": "not_eligible",
+        "confidence": 0.35,
+        "reasoning": "Theatre focus not aligned with film/documentary production"
+      }
     }
   ]
-} 
+}
