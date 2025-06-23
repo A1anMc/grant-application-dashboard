@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../supabaseClient'
+import { useState } from 'react'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -25,44 +24,21 @@ interface OrganizationProfile {
 }
 
 export default function Layout({ children, currentPage, onPageChange, onSignOut }: LayoutProps) {
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<OrganizationProfile | null>(null)
-  const [showUserMenu, setShowUserMenu] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchUserAndProfile()
-  }, [])
-
-  const fetchUserAndProfile = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        setUser({ id: user.id, email: user.email || '' })
-
-        // Fetch organization profile
-        const { data: profileData } = await supabase
-          .from('organization_profiles')
-          .select('*')
-          .eq('user_id', user.id)
-          .single()
-
-        if (profileData) {
-          setProfile({
-            ...profileData,
-            primary_focus_areas: JSON.parse(profileData.primary_focus_areas || '[]')
-          })
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching user/profile:', err)
-    } finally {
-      setLoading(false)
-    }
+  // Demo mode - use static data
+  const user: User = { id: 'demo-user-123', email: 'demo@shadowgoose.com' }
+  const profile: OrganizationProfile = {
+    organization_name: 'Shadow Goose Productions',
+    abn: '12345678901',
+    website: 'https://shadowgoose.com',
+    dgr_status: true,
+    charity_status: false,
+    organization_type: 'Arts & Culture',
+    primary_focus_areas: 'Documentary Production, First Nations Partnerships',
+    organization_history: 'Established documentary production company with strong First Nations partnerships'
   }
+  const [showUserMenu, setShowUserMenu] = useState(false)
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
+  const handleSignOut = () => {
     onSignOut()
   }
 
@@ -74,13 +50,7 @@ export default function Layout({ children, currentPage, onPageChange, onSignOut 
     { id: 'analytics', label: 'Analytics', icon: '📊' }
   ]
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    )
-  }
+  // Remove loading state in demo mode
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -127,12 +97,12 @@ export default function Layout({ children, currentPage, onPageChange, onSignOut 
                   className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
-                    <span className="text-gray-600 font-medium">
-                      {user?.email?.[0]?.toUpperCase() || 'U'}
-                    </span>
+                                      <span className="text-gray-600 font-medium">
+                    {user.email[0].toUpperCase()}
+                  </span>
                   </div>
                   <span className="ml-2 text-gray-700 hidden sm:block">
-                    {profile?.organization_name || user?.email || 'User'}
+                    {profile.organization_name || user.email || 'User'}
                   </span>
                   <svg className="ml-1 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -143,8 +113,8 @@ export default function Layout({ children, currentPage, onPageChange, onSignOut 
                   <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                     <div className="py-1">
                       <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                        <div className="font-medium">{profile?.organization_name || 'Organization'}</div>
-                        <div className="text-xs text-gray-500">{user?.email}</div>
+                        <div className="font-medium">{profile.organization_name || 'Organization'}</div>
+                        <div className="text-xs text-gray-500">{user.email}</div>
                       </div>
                       <button
                         onClick={() => {

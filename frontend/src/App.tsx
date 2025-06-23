@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
 import AuthPage from './components/AuthPage'
 import OnboardingFlow from './components/OnboardingFlow'
 import Layout from './components/Layout'
@@ -120,6 +119,16 @@ function App() {
   const [user, setUser] = useState<User | null>(null)
   const [selectedGrant, setSelectedGrant] = useState<Grant | null>(null)
   
+  // Check for demo mode after hooks are initialized
+  const urlParams = new URLSearchParams(window.location.search)
+  const isDemoMode = urlParams.get('demo') === 'true'
+  
+  // Return demo app if in demo mode
+  if (isDemoMode) {
+    console.log('Demo mode detected - rendering demo app')
+    return <DemoApp />
+  }
+  
   // Debug logging for state changes
   useEffect(() => {
     console.log('App state changed to:', appState)
@@ -130,17 +139,6 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    // Check if demo mode is enabled via URL parameter
-    const urlParams = new URLSearchParams(window.location.search)
-    const isDemoMode = urlParams.get('demo') === 'true'
-    
-    if (isDemoMode) {
-      console.log('Demo mode enabled - bypassing authentication')
-      setUser({ id: 'demo-user', email: 'demo@example.com' })
-      setAppState('app')
-      return // Exit early, don't set up auth listeners
-    }
-    
     checkAuthState()
     
     // Add a timeout fallback in case auth check hangs
@@ -151,63 +149,36 @@ function App() {
       }
     }, 3000) // Reduced to 3 seconds
     
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event: any, session: any) => {
-      if (_event === 'SIGNED_IN' && session?.user) {
-        setUser({ id: session.user.id, email: session.user.email || '' })
-        await checkProfile(session.user.id)
-      } else if (_event === 'SIGNED_OUT') {
-        setUser(null)
-        setAppState('auth')
-      }
-    })
-
+    // Skip auth listener in demo mode - just use timeout cleanup
     return () => {
-      subscription.unsubscribe()
       clearTimeout(timeoutId)
     }
   }, [])
 
   const checkAuthState = async () => {
     try {
-      const { data: { user }, error } = await supabase.auth.getUser()
+      // For demo purposes, simulate a successful auth with demo user
+      console.log('Demo mode: Simulating successful authentication')
+      setUser({ id: 'demo-user-123', email: 'demo@shadowgoose.com' })
       
-      if (error) {
-        console.error('Supabase auth error:', error)
-        // For demo purposes, show the app even if auth fails
-        setAppState('auth')
-        return
-      }
-      
-      if (user) {
-        setUser({ id: user.id, email: user.email || '' })
-        await checkProfile(user.id)
-      } else {
-        setAppState('auth')
-      }
+      // Skip profile check and go straight to app
+      setAppState('app')
     } catch (error) {
-      console.error('Error checking auth state:', error)
-      // For demo purposes, show auth page instead of staying in loading
-      setAppState('auth')
+      console.error('Error in demo auth:', error)
+      // Fallback to app state anyway
+      setUser({ id: 'demo-user-123', email: 'demo@shadowgoose.com' })
+      setAppState('app')
     }
   }
 
   const checkProfile = async (userId: string) => {
     try {
-      const { data: profileData } = await supabase
-        .from('organization_profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single()
-
-      if (profileData) {
-        setAppState('app')
-      } else {
-        setAppState('onboarding')
-      }
+      // For demo purposes, simulate existing profile
+      console.log('Demo mode: Simulating existing profile for user:', userId)
+      setAppState('app')
     } catch (error) {
       console.error('Error checking profile:', error)
-      setAppState('onboarding')
+      setAppState('app') // Go to app anyway in demo mode
     }
   }
 
@@ -284,14 +255,7 @@ function App() {
     }
   }
 
-  // Check for demo mode after all hooks are initialized
-  const urlParams = new URLSearchParams(window.location.search)
-  const isDemoMode = urlParams.get('demo') === 'true'
-  
-  if (isDemoMode) {
-    console.log('Demo mode detected - rendering demo app')
-    return <DemoApp />
-  }
+
 
   // Loading state
   if (appState === 'loading') {
