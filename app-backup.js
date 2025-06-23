@@ -92,6 +92,7 @@ class GrantPortal {
         document.getElementById('inProgressGrants').textContent = inProgress;
         document.getElementById('submittedGrants').textContent = submitted;
 
+        // Add animation to statistics
         this.animateNumbers();
     }
 
@@ -119,11 +120,13 @@ class GrantPortal {
         const gridViewBtn = document.getElementById('gridView');
         const listViewBtn = document.getElementById('listView');
 
+        // Update button states
         gridViewBtn.classList.toggle('btn-primary', view === 'grid');
         gridViewBtn.classList.toggle('btn-secondary', view !== 'grid');
         listViewBtn.classList.toggle('btn-primary', view === 'list');
         listViewBtn.classList.toggle('btn-secondary', view !== 'list');
 
+        // Update container class
         container.className = view === 'grid' ? 'grants-grid' : 'grants-list';
         
         this.renderGrants();
@@ -248,7 +251,30 @@ class GrantPortal {
         const grant = this.grants.find(g => g.id === grantId);
         if (!grant) return;
 
-        alert(`Grant Details: ${grant.name}\n\nFunder: ${grant.funder}\nAmount: ${grant.amount_string}\nDue: ${grant.due_date}\n\nDescription: ${grant.description}`);
+        // Create a more sophisticated modal or expand the card
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>${this.escapeHtml(grant.name)}</h2>
+                    <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Funder:</strong> ${this.escapeHtml(grant.funder)}</p>
+                    <p><strong>Amount:</strong> ${this.formatAmount(grant.amount_string)}</p>
+                    <p><strong>Due Date:</strong> ${this.formatDate(grant.due_date)}</p>
+                    <p><strong>Status:</strong> <span class="badge ${this.getStatusClass(grant.status)}">${grant.status}</span></p>
+                    <p><strong>Description:</strong></p>
+                    <p>${this.escapeHtml(grant.description)}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">Close</button>
+                    <button class="btn-primary" onclick="grantPortal.applyForGrant('${grant.id}')">Apply Now</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
     }
 
     applyForGrant(grantId) {
@@ -266,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add smooth scrolling and enhanced UX
 document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scroll to top when clicking on header
     const header = document.querySelector('.header');
     header.addEventListener('click', () => {
         window.scrollTo({
@@ -274,8 +301,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Add loading animation delays for staggered effect
     const slideUpElements = document.querySelectorAll('.slide-up');
     slideUpElements.forEach((element, index) => {
         element.style.animationDelay = `${index * 0.1}s`;
     });
-});
+
+    // Add hover effects to cards
+    const cards = document.querySelectorAll('.grant-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}); 
