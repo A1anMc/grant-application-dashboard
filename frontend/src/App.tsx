@@ -227,6 +227,9 @@ function App() {
       case 'dashboard':
         return <GrantDiscoveryDashboard onGrantClick={handleGrantClick} />
       
+      case 'discovery':
+        return <EnhancedGrantDiscoveryDashboard />
+      
       case 'my-grants':
         return <MyGrantsWorkspace onGrantClick={handleGrantClick} />
       
@@ -251,7 +254,7 @@ function App() {
         )
       
       default:
-        return <GrantDiscoveryDashboard onGrantClick={handleGrantClick} />
+        return <EnhancedGrantDiscoveryDashboard />
     }
   }
 

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../supabaseClient'
 import {
   BarChart,
   Bar,
@@ -103,12 +102,87 @@ export default function AnalyticsDashboard() {
 
   async function fetchMetrics() {
     try {
-      const { data, error } = await supabase.rpc('get_dashboard_metrics')
-      if (error) throw error
-
-      // Type assertion to handle the RPC response
-      const typedData = data as Metrics
-      setMetrics(typedData)
+      // Use demo data for now - sophisticated metrics
+      const demoData: Metrics = {
+        grant_success_metrics: {
+          total_grants: 12,
+          total_amount: 450000,
+          success_rate: 75.5,
+          avg_processing_time: 45,
+          monthly_trends: [
+            { month: 'Jan', submitted: 2, approved: 1 },
+            { month: 'Feb', submitted: 3, approved: 2 },
+            { month: 'Mar', submitted: 4, approved: 3 },
+            { month: 'Apr', submitted: 2, approved: 2 },
+            { month: 'May', submitted: 3, approved: 2 },
+            { month: 'Jun', submitted: 4, approved: 3 }
+          ],
+          funder_stats: [
+            { funder: 'Creative Australia', approved: 3, total: 4 },
+            { funder: 'Screen Australia', approved: 2, total: 3 },
+            { funder: 'Australia Council', approved: 4, total: 5 }
+          ]
+        },
+        activity_metrics: {
+          activity_counts: {
+            'Grant Applications': 12,
+            'Document Uploads': 45,
+            'Task Completions': 28,
+            'Comments Added': 15
+          },
+          recent_activities: [
+            { type: 'Grant Approved', timestamp: '2024-01-15', details: 'First Nations Arts Program - $75,000' },
+            { type: 'Application Submitted', timestamp: '2024-01-12', details: 'Documentary Producer Program' },
+            { type: 'Document Uploaded', timestamp: '2024-01-10', details: 'Project Budget Template' }
+          ],
+          daily_activity: {
+            'Monday': 8,
+            'Tuesday': 12,
+            'Wednesday': 15,
+            'Thursday': 10,
+            'Friday': 7,
+            'Saturday': 3,
+            'Sunday': 2
+          }
+        },
+        task_metrics: {
+          total_tasks: 28,
+          status_distribution: {
+            'Completed': 18,
+            'In Progress': 7,
+            'Pending': 3
+          },
+          priority_distribution: {
+            'High': 5,
+            'Medium': 15,
+            'Low': 8
+          },
+          completion_rate: 64.3,
+          avg_completion_time: 3.2,
+          overdue_tasks: 2
+        },
+        document_metrics: {
+          total_documents: 45,
+          total_templates: 12,
+          type_distribution: {
+            'Budget': 8,
+            'Proposal': 12,
+            'Report': 6,
+            'Legal': 4,
+            'Media': 15
+          },
+          storage_used: 2500000,
+          avg_size_bytes: 55555,
+          monthly_uploads: {
+            'Jan': 8,
+            'Feb': 12,
+            'Mar': 15,
+            'Apr': 10
+          }
+        }
+      }
+      
+      setMetrics(demoData)
     } catch (err) {
       console.error('Error fetching metrics:', err)
       setError(err instanceof Error ? err.message : 'An error occurred while fetching metrics')
