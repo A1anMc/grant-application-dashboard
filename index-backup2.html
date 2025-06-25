@@ -6,7 +6,6 @@
   <title>SGE Grant Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container fade-in">
@@ -20,80 +19,6 @@
     </header>
 
     <main class="main-content">
-      <!-- Grant KPIs Section -->
-      <section class="kpis-section slide-up">
-        <h2>Grant Overview</h2>
-        <div class="kpis-grid">
-          <div class="kpi-card glass-effect" data-filter="all">
-            <div class="kpi-icon">🔢</div>
-            <div class="kpi-content">
-              <h3>Total Grants</h3>
-              <p class="kpi-number" id="totalGrantsKPI">0</p>
-            </div>
-          </div>
-          <div class="kpi-card glass-effect eligible" data-filter="eligible">
-            <div class="kpi-icon">✅</div>
-            <div class="kpi-content">
-              <h3>Eligible Grants</h3>
-              <p class="kpi-number" id="eligibleGrantsKPI">0</p>
-            </div>
-          </div>
-          <div class="kpi-card glass-effect auspice" data-filter="eligible_with_auspice">
-            <div class="kpi-icon">⚠️</div>
-            <div class="kpi-content">
-              <h3>Auspice-Only</h3>
-              <p class="kpi-number" id="auspiceGrantsKPI">0</p>
-            </div>
-          </div>
-          <div class="kpi-card glass-effect not-eligible" data-filter="not_eligible">
-            <div class="kpi-icon">❌</div>
-            <div class="kpi-content">
-              <h3>Not Eligible</h3>
-              <p class="kpi-number" id="notEligibleGrantsKPI">0</p>
-            </div>
-          </div>
-          <div class="kpi-card glass-effect urgent" data-filter="deadline">
-            <div class="kpi-icon">⏳</div>
-            <div class="kpi-content">
-              <h3>Upcoming (<30d)</h3>
-              <p class="kpi-number" id="upcomingDeadlinesKPI">0</p>
-            </div>
-          </div>
-          <div class="kpi-card glass-effect funding" data-filter="funding">
-            <div class="kpi-icon">💰</div>
-            <div class="kpi-content">
-              <h3>Total Funding</h3>
-              <p class="kpi-number" id="totalFundingKPI">$0</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Upcoming Deadlines Section -->
-      <section class="deadlines-section slide-up">
-        <h2>Upcoming Deadlines</h2>
-        <div class="deadlines-container">
-          <div class="deadlines-list" id="deadlinesList">
-            <!-- Deadlines will be populated here -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Eligibility Summary Section -->
-      <section class="eligibility-summary-section slide-up">
-        <h2>Eligibility Intelligence</h2>
-        <div class="eligibility-grid">
-          <div class="eligibility-chart glass-effect">
-            <h3>Eligibility Distribution</h3>
-            <canvas id="eligibilityChart" width="300" height="200"></canvas>
-          </div>
-          <div class="confidence-chart glass-effect">
-            <h3>Confidence Levels</h3>
-            <canvas id="confidenceChart" width="300" height="200"></canvas>
-          </div>
-        </div>
-      </section>
-
       <section class="search-section slide-up">
         <div class="search-card">
           <h2>Grant Discovery</h2>
@@ -134,22 +59,24 @@
         </div>
       </section>
 
-      <!-- Export Section -->
-      <section class="export-section slide-up">
-        <h2>Export & Reporting</h2>
-        <div class="export-controls">
-          <button class="btn-export" id="exportCSV">
-            📊 Export CSV
-          </button>
-          <button class="btn-export" id="exportPDF">
-            📄 Export PDF
-          </button>
-          <button class="btn-export" id="exportMarkdown">
-            📝 Export Markdown
-          </button>
-          <button class="btn-export" id="shareLink">
-            🔗 Share Summary
-          </button>
+      <section class="stats-section slide-up">
+        <div class="stats-grid">
+          <div class="stat-card glass-effect">
+            <h3 class="text-gradient">Total Grants</h3>
+            <p class="stat-number" id="totalGrants">0</p>
+          </div>
+          <div class="stat-card glass-effect">
+            <h3 class="text-gradient">✅ Eligible</h3>
+            <p class="stat-number" id="eligibleGrants">0</p>
+          </div>
+          <div class="stat-card glass-effect">
+            <h3 class="text-gradient">⚠️ With Auspice</h3>
+            <p class="stat-number" id="auspiceGrants">0</p>
+          </div>
+          <div class="stat-card glass-effect">
+            <h3 class="text-gradient">❌ Not Eligible</h3>
+            <p class="stat-number" id="notEligibleGrants">0</p>
+          </div>
         </div>
       </section>
 

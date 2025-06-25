@@ -1,0 +1,178 @@
+{
+  "grants": [
+    {
+      "id": "manual_1750759534828_uex2yfl3p",
+      "name": "Indigenous Documentary Fund",
+      "funder": "First Nations Media Australia",
+      "description": "Funding for Indigenous filmmakers to create powerful documentaries that share authentic First Nations stories and perspectives",
+      "amount_string": ",000 - ,000",
+      "due_date": "2025-09-15",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T10:05:34.828Z",
+      "tags": [
+        "FIRST NATIONS",
+        "DOCUMENTARY"
+      ],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.95,
+        "reasoning": "Excellent match for documentary film production"
+      },
+      "source": "manual_entry",
+      "added_by": "CLI Quick Add"
+    },
+    {
+      "id": "manual_1750759540856_dkxtht07m",
+      "name": "Regional Arts Development Grant",
+      "funder": "Australia Council for the Arts",
+      "description": "Supporting community-based arts projects that strengthen cultural connections and create social impact in regional Australia",
+      "amount_string": ",000 - ,000",
+      "due_date": "2025-08-30",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T10:05:40.856Z",
+      "tags": [
+        "ARTS",
+        "COMMUNITY",
+        "REGIONAL",
+        "SOCIAL IMPACT"
+      ],
+      "eligibility": {
+        "category": "eligible_with_auspice",
+        "confidence": 0.75,
+        "reasoning": "Good community and social impact focus"
+      },
+      "source": "manual_entry",
+      "added_by": "CLI Quick Add"
+    },
+    {
+      "id": "manual_1750761190235_ck0y6cknf",
+      "name": "Test Grant",
+      "funder": "Test Funder",
+      "description": "Test description for manual grant entry",
+      "amount_string": "$10,000",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T10:33:10.235Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "API Test"
+    },
+    {
+      "id": "manual_1750761217435_5ie3z6xvl",
+      "name": "Frontend Test Grant",
+      "funder": "React App",
+      "description": "Testing manual grant entry from frontend",
+      "amount_string": "$25,000",
+      "due_date": "2025-11-15",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T10:33:37.435Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "Frontend Test"
+    },
+    {
+      "id": "manual_1750763875180_mp5btm979",
+      "name": "Debug Test Grant",
+      "funder": "Debug Foundation",
+      "description": "This is a test grant to debug the manual entry system",
+      "amount_string": "$1,000",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T11:17:55.181Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "Debug Component"
+    },
+    {
+      "id": "manual_1750765379912_21iu8j49l",
+      "name": "System Test Grant",
+      "funder": "Test Foundation",
+      "description": "Testing the manual grant entry system end-to-end",
+      "amount_string": "$50,000",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-24T11:42:59.912Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "System Test"
+    },
+    {
+      "id": "manual_1750842603875_zgkauftuw",
+      "name": "System Test Grant",
+      "funder": "Test Foundation",
+      "description": "Testing system functionality",
+      "amount_string": "Contact for details",
+      "due_date": "Ongoing",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-25T09:10:03.875Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "system"
+    },
+    {
+      "id": "manual_1750845319405_7pn6e5mn5",
+      "name": "System Check Grant",
+      "funder": "Test Foundation",
+      "description": "Comprehensive system check",
+      "amount_string": "Contact for details",
+      "due_date": "Ongoing",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-25T09:55:19.405Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "system"
+    }
+  ],
+  "lastUpdated": "2025-06-25T09:55:19.405Z",
+  "total": 8
+}

@@ -1,13 +1,14 @@
 // API configuration for SGE Grant Portal
-// Use relative URLs to work with Vite proxy
-const API_BASE = '/api';
+// Use environment variable for production or fallback to local development
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE = `${API_BASE_URL}/api`;
 
 export const apiConfig = {
   baseURL: API_BASE,
   endpoints: {
     grants: `${API_BASE}/grants`,
     grantDetails: (id) => `${API_BASE}/grants/${id}`,
-    health: '/health',
+    health: `${API_BASE_URL}/health`,
   }
 };
 

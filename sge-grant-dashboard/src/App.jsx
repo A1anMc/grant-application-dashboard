@@ -1,24 +1,42 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Overview from './components/Overview'
-import GrantList from './components/GrantList'
-import GrantDetails from './components/GrantDetails'
-import Analytics from './components/Analytics'
-import Settings from './components/Settings'
+import React, { useState } from 'react';
+import './App.css';
+import Navbar from './components/Navbar';
+import Overview from './components/Overview';
+import GrantList from './components/GrantList';
+import Analytics from './components/Analytics';
+import Settings from './components/Settings';
+import InsightsWidget from './components/InsightsWidget';
 
-export default function App() {
+function App() {
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const renderActiveComponent = () => {
+    switch (activeTab) {
+      case 'overview':
+        return <Overview />;
+      case 'grants':
+        return <GrantList />;
+      case 'analytics':
+        return <Analytics />;
+      case 'insights':
+        return <InsightsWidget />;
+      case 'settings':
+        return <Settings />;
+      default:
+        return <Overview />;
+    }
+  };
+
   return (
-    <Router>
-      <Navbar />
+    <div className="app">
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Overview />} />
-          <Route path="/grants" element={<GrantList />} />
-          <Route path="/grants/:id" element={<GrantDetails />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
+        <div className="container">
+          {renderActiveComponent()}
+        </div>
       </main>
-    </Router>
-  )
+    </div>
+  );
 }
+
+export default App;

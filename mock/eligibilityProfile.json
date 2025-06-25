@@ -1,0 +1,92 @@
+{
+  "organization": {
+    "name": "Shadow Goose Productions",
+    "type": "Film and Documentary Production",
+    "focus_areas": [
+      "First Nations Stories",
+      "Australian Documentary",
+      "Indigenous Culture",
+      "Community Impact",
+      "Social Justice",
+      "Environmental Stories"
+    ]
+  },
+  "eligibility_criteria": {
+    "required_tags": [
+      "FIRST NATIONS",
+      "ARTS",
+      "CULTURE",
+      "COMMUNITY",
+      "DOCUMENTARY",
+      "FILM",
+      "SOCIAL IMPACT",
+      "AUSTRALIAN STORIES"
+    ],
+    "preferred_keywords": [
+      "indigenous",
+      "aboriginal",
+      "first nations",
+      "documentary",
+      "film",
+      "arts",
+      "culture",
+      "community",
+      "social impact",
+      "australian stories",
+      "regional",
+      "youth",
+      "creative",
+      "storytelling"
+    ],
+    "excluded_keywords": [
+      "theatre",
+      "performance",
+      "music",
+      "dance",
+      "visual arts",
+      "sculpture",
+      "painting",
+      "exhibition"
+    ],
+    "amount_ranges": {
+      "min": 10000,
+      "max": 500000,
+      "preferred_min": 25000
+    },
+    "location_requirements": [
+      "Australia",
+      "Australian",
+      "Regional Australia",
+      "Remote Australia"
+    ]
+  },
+  "auto_categorization": {
+    "eligible": {
+      "conditions": [
+        "Contains 2+ required tags",
+        "Amount within preferred range",
+        "No excluded keywords",
+        "Location matches requirements"
+      ],
+      "confidence_threshold": 0.8
+    },
+    "eligible_with_auspice": {
+      "conditions": [
+        "Contains 1+ required tags",
+        "Amount within range",
+        "May need auspice organization",
+        "Location matches requirements"
+      ],
+      "confidence_threshold": 0.6
+    },
+    "not_eligible": {
+      "conditions": [
+        "No required tags",
+        "Amount outside range",
+        "Contains excluded keywords",
+        "Location doesn't match"
+      ],
+      "confidence_threshold": 0.4
+    }
+  }
+}

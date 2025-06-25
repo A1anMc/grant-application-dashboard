@@ -1,269 +1,318 @@
+/* Modern Grant Card */
 .grant-card {
-  background: white;
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-  position: relative;
-  transition: var(--transition-normal);
-  transform: rotate(-1deg);
-  border: 1px solid var(--light-gray);
-  min-height: 280px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-6);
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-4);
+  height: 100%;
 }
 
 .grant-card:hover {
-  transform: rotate(0deg) scale(1.02);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary-300);
 }
 
-.grant-card.hovered {
-  z-index: 10;
-}
-
-/* Decorative tape */
-.card-tape {
-  position: absolute;
-  top: -2px;
-  right: 20px;
-  width: 40px;
-  height: 6px;
-  background: var(--warm-sand);
-  border-radius: 3px;
-  opacity: 0.8;
-  transform: rotate(-5deg);
-}
-
-/* Paper clip */
-.card-paperclip {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 16px;
-  height: 24px;
-  border: 2px solid var(--midnight-blue);
-  border-radius: 0 0 8px 8px;
-  transform: rotate(10deg);
-  opacity: 0.6;
-}
-
-.card-paperclip::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  height: 6px;
-  border: 2px solid var(--midnight-blue);
-  border-radius: 8px 8px 0 0;
-}
-
-/* Card header */
-.card-header {
+/* Card Header */
+.grant-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--spacing-md);
-  gap: var(--spacing-sm);
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.grant-title h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--midnight-blue);
-  margin: 0 0 var(--spacing-sm) 0;
-  line-height: 1.3;
-}
-
-.eligibility-badge {
-  display: inline-block;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.card-actions {
-  display: flex;
-  gap: var(--spacing-xs);
-}
-
-.action-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: var(--spacing-xs);
-  border-radius: var(--radius-sm);
-  transition: var(--transition-fast);
-  opacity: 0.6;
-}
-
-.action-btn:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.action-btn.flagged {
-  opacity: 1;
-  color: var(--burnt-coral);
-}
-
-.action-btn.saved {
-  opacity: 1;
-  color: var(--accent-lime);
-}
-
-/* Card content */
-.card-content {
+.grant-title-section {
   flex: 1;
-  margin-bottom: var(--spacing-md);
+  min-width: 0;
 }
 
-.grant-description {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: var(--spacing-md);
+.grant-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+  line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .grant-meta {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-}
-
-.meta-item {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
 }
 
-.meta-label {
-  color: var(--text-secondary);
-  font-weight: 500;
+.grant-source {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
-.meta-value {
-  color: var(--text-primary);
-  font-weight: 600;
+.verified-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success-700);
+  background: var(--color-success-100);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.meta-value.deadline {
-  color: var(--burnt-coral);
-  font-weight: 700;
+.grant-amount {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-600);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Tags */
+/* Card Body */
+.grant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.grant-description {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+/* Grant Details */
+.grant-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.grant-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  font-size: var(--text-sm);
+}
+
+.detail-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+/* Deadline Status Colors */
+.deadline-urgent {
+  color: var(--color-error-600);
+  font-weight: var(--font-weight-semibold);
+}
+
+.deadline-soon {
+  color: var(--color-warning-600);
+  font-weight: var(--font-weight-medium);
+}
+
+.deadline-normal {
+  color: var(--color-text-secondary);
+}
+
+.deadline-expired {
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+}
+
+/* Eligibility Item */
+.eligibility-item {
+  align-items: flex-start;
+}
+
+.eligibility-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+/* Grant Tags */
 .grant-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
 }
 
-.tag {
-  display: inline-block;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--light-gray);
-  color: var(--text-primary);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 500;
+.grant-tag {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary-700);
+  background: var(--color-primary-100);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+  white-space: nowrap;
 }
 
-.handwritten-tag {
-  font-family: var(--font-handwritten);
-  background: var(--warm-sand);
-  color: var(--midnight-blue);
-  border-bottom: 2px solid var(--burnt-coral);
-  transform: rotate(-1deg);
-  font-size: 0.8rem;
-  font-weight: 500;
+.grant-tag-more {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  background: var(--color-surface-secondary);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+  white-space: nowrap;
 }
 
-/* Card footer */
-.card-footer {
+/* Card Footer */
+.grant-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border);
   margin-top: auto;
 }
 
-.view-details-btn {
-  font-size: 0.85rem;
-  padding: var(--spacing-sm) var(--spacing-md);
+.grant-actions {
+  display: flex;
+  gap: var(--spacing-2);
+  flex: 1;
 }
 
-.source-verification {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+.grant-actions .btn {
+  flex: 1;
+  justify-content: center;
 }
 
-.verified-source {
-  color: var(--accent-lime);
-  font-weight: 600;
+/* Urgency Indicator */
+.urgency-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-error-100);
+  color: var(--color-error-700);
+  border-radius: var(--border-radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
 }
 
-.manual-source {
-  color: var(--warm-sand);
-  font-weight: 600;
+.urgency-icon {
+  font-size: var(--text-sm);
+}
+
+.urgency-text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .grant-card {
-    transform: none;
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-4);
+    gap: var(--spacing-3);
   }
   
-  .grant-card:hover {
-    transform: scale(1.01);
-  }
-  
-  .card-header {
+  .grant-card-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--spacing-3);
   }
   
-  .card-actions {
-    align-self: flex-end;
+  .grant-amount {
+    font-size: var(--text-lg);
   }
   
-  .grant-meta {
-    gap: var(--spacing-xs);
+  .grant-title {
+    font-size: var(--text-base);
   }
   
-  .meta-item {
-    font-size: 0.8rem;
+  .grant-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-3);
+  }
+  
+  .grant-actions {
+    flex-direction: column;
+  }
+  
+  .urgency-indicator {
+    align-self: center;
   }
 }
 
 @media (max-width: 480px) {
   .grant-card {
-    padding: var(--spacing-md);
+    padding: var(--spacing-3);
   }
   
-  .grant-title h3 {
-    font-size: 1rem;
-  }
-  
-  .card-footer {
+  .grant-detail-item {
     flex-direction: column;
-    gap: var(--spacing-sm);
-    align-items: stretch;
+    gap: var(--spacing-1);
   }
   
-  .view-details-btn {
-    width: 100%;
+  .detail-label {
+    min-width: auto;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
+  
+  .grant-tags {
+    gap: var(--spacing-1);
+  }
+  
+  .grant-tag,
+  .grant-tag-more {
+    font-size: 10px;
+    padding: 2px var(--spacing-1);
+  }
+}
+
+/* Focus states for accessibility */
+.grant-card:focus-within {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+/* Animation for smooth interactions */
+@keyframes cardHover {
+  from {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+  to {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.grant-card:hover {
+  animation: cardHover var(--transition-fast) ease-out forwards;
+} 
 } 

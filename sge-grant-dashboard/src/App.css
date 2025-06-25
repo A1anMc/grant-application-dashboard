@@ -1,7 +1,45 @@
+/* Modern App Layout */
+.app {
+  min-height: 100vh;
+  background: var(--color-background);
+  display: flex;
+  flex-direction: column;
+}
+
 .main-content {
-  min-height: calc(100vh - 80px);
-  background: var(--off-white);
-  background-attachment: fixed;
+  flex: 1;
+  padding: var(--spacing-8) 0;
+  background: var(--color-surface-secondary);
+  min-height: calc(100vh - 72px);
+}
+
+/* Enhanced container for better content layout */
+.main-content .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: var(--spacing-6) 0;
+    min-height: calc(100vh - 64px);
+  }
+  
+  .main-content .container {
+    padding: 0 var(--spacing-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: var(--spacing-4) 0;
+  }
+  
+  .main-content .container {
+    padding: 0 var(--spacing-3);
+  }
 }
 
 /* Remove any conflicting styles */

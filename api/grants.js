@@ -3,6 +3,125 @@ const router = express.Router();
 const eligibilityLogic = require('./eligibility');
 const fs = require('fs').promises;
 const path = require('path');
+const ManualGrantManager = require('./manual-grants');
+
+// Initialize manual grant manager
+const manualGrantManager = new ManualGrantManager();
+
+// Load mock grants
+async function loadMockGrants() {
+    try {
+        const mockPath = path.join(__dirname, '../mock/mockGrants.json');
+        const data = await fs.readFile(mockPath, 'utf8');
+        const parsed = JSON.parse(data);
+        return parsed.grants || parsed || [];
+    } catch (error) {
+        console.error('Error loading mock grants:', error);
+        return [];
+    }
+}
+
+// Load discovered grants
+async function loadDiscoveredGrants() {
+    try {
+        const discoveredPath = path.join(__dirname, '../mock/discovered_grants.json');
+        const data = await fs.readFile(discoveredPath, 'utf8');
+        const parsed = JSON.parse(data);
+        return parsed.grants || [];
+    } catch (error) {
+        console.log('No discovered grants found');
+        return [];
+    }
+}
+
+// Load manual grants
+async function loadManualGrants() {
+    try {
+        const manualData = await manualGrantManager.getAllGrants();
+        return manualData.grants || [];
+    } catch (error) {
+        console.log('No manual grants found');
+        return [];
+    }
+}
+
+// Combine all grant sources
+async function getAllGrants() {
+    const [mockGrants, discoveredGrants, manualGrants] = await Promise.all([
+        loadMockGrants(),
+        loadDiscoveredGrants(),
+        loadManualGrants()
+    ]);
+
+    // Combine all grants
+    const allGrants = [
+        ...mockGrants,
+        ...discoveredGrants,
+        ...manualGrants
+    ];
+
+    // Filter for future deadlines only
+    const now = new Date();
+    const futureGrants = allGrants.filter(grant => {
+        if (!grant.due_date || grant.due_date === 'Ongoing') return true;
+        const deadline = new Date(grant.due_date);
+        return deadline > now;
+    });
+
+    return futureGrants;
+}
+
+// Calculate statistics
+function calculateStats(grants) {
+    const stats = {
+        total: grants.length,
+        mock: 0,
+        discovered: 0,
+        manual: 0,
+        byEligibility: {
+            eligible: 0,
+            eligible_with_auspice: 0,
+            not_eligible: 0,
+            potential: 0
+        },
+        bySource: {},
+        upcomingDeadlines: 0
+    };
+
+    const now = new Date();
+    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    grants.forEach(grant => {
+        // Count by source type
+        if (grant.source === 'manual_entry') {
+            stats.manual++;
+        } else if (grant.source && grant.source !== 'unknown') {
+            stats.discovered++;
+        } else {
+            stats.mock++;
+        }
+
+        // Count by eligibility
+        const eligibility = grant.eligibility?.category || 'potential';
+        if (stats.byEligibility.hasOwnProperty(eligibility)) {
+            stats.byEligibility[eligibility]++;
+        }
+
+        // Count by source
+        const source = grant.funder || grant.source || 'unknown';
+        stats.bySource[source] = (stats.bySource[source] || 0) + 1;
+
+        // Count upcoming deadlines
+        if (grant.due_date && grant.due_date !== 'Ongoing') {
+            const deadline = new Date(grant.due_date);
+            if (deadline > now && deadline <= thirtyDaysFromNow) {
+                stats.upcomingDeadlines++;
+            }
+        }
+    });
+
+    return stats;
+}
 
 // Enhanced grants API with discovery features
 class GrantsAPI {
@@ -247,22 +366,15 @@ class GrantsAPI {
 const grantsAPI = new GrantsAPI();
 
 // GET /api/grants - Get all grants with optional filters
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const filters = {
-            tag: req.query.tag,
-            deadline_lt: req.query.deadline_lt,
-            eligible: req.query.eligible,
-            source: req.query.source,
-            search: req.query.search
-        };
-
-        const grants = grantsAPI.getAllGrants(filters);
+        const grants = await getAllGrants();
+        const stats = calculateStats(grants);
         
         res.json({
             grants,
-            stats: grantsAPI.getStats(),
-            filters: Object.keys(filters).filter(key => filters[key])
+            stats,
+            filters: []
         });
     } catch (error) {
         console.error('Error getting grants:', error);
@@ -362,6 +474,91 @@ router.post('/discover', async (req, res) => {
     } catch (error) {
         console.error('Error triggering discovery:', error);
         res.status(500).json({ error: 'Failed to trigger discovery' });
+    }
+});
+
+// POST /api/grants/manual - Add manual grant
+router.post('/manual', async (req, res) => {
+    try {
+        const grantData = req.body;
+        
+        // Validate required fields
+        if (!grantData.name || !grantData.funder || !grantData.description) {
+            return res.status(400).json({ 
+                error: 'Missing required fields: name, funder, description' 
+            });
+        }
+
+        const newGrant = await manualGrantManager.addGrant(grantData);
+        res.status(201).json(newGrant);
+    } catch (error) {
+        console.error('Error adding manual grant:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// PUT /api/grants/manual/:id - Update manual grant
+router.put('/manual/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+        
+        const updatedGrant = await manualGrantManager.updateGrant(id, updates);
+        res.json(updatedGrant);
+    } catch (error) {
+        console.error('Error updating manual grant:', error);
+        if (error.message.includes('not found')) {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(400).json({ error: error.message });
+        }
+    }
+});
+
+// DELETE /api/grants/manual/:id - Delete manual grant
+router.delete('/manual/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const deletedGrant = await manualGrantManager.deleteGrant(id);
+        res.json({ message: 'Grant deleted successfully', grant: deletedGrant });
+    } catch (error) {
+        console.error('Error deleting manual grant:', error);
+        if (error.message.includes('not found')) {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: error.message });
+        }
+    }
+});
+
+// GET /api/grants/search?q=query - Search grants
+router.get('/search', async (req, res) => {
+    try {
+        const { q } = req.query;
+        
+        if (!q) {
+            return res.status(400).json({ error: 'Search query required' });
+        }
+
+        const grants = await getAllGrants();
+        const searchTerm = q.toLowerCase();
+        
+        const results = grants.filter(grant => 
+            grant.name.toLowerCase().includes(searchTerm) ||
+            grant.description.toLowerCase().includes(searchTerm) ||
+            grant.funder.toLowerCase().includes(searchTerm) ||
+            (grant.tags && grant.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+        );
+
+        res.json({
+            query: q,
+            results,
+            total: results.length
+        });
+    } catch (error) {
+        console.error('Error searching grants:', error);
+        res.status(500).json({ error: 'Failed to search grants' });
     }
 });
 

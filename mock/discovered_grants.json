@@ -1,0 +1,54 @@
+{
+  "grants": [
+    {
+      "id": "fallback_1750759645267_1",
+      "name": "Screen Australia Documentary Producer Program",
+      "description": "Funding for experienced documentary producers to develop and produce feature documentaries",
+      "amount_string": "$20,000 - $500,000",
+      "due_date": "2025-10-15",
+      "funder": "Screen Australia",
+      "source_url": "https://www.screenaustralia.gov.au/funding-and-support/documentary/producer-program",
+      "source": "fallback_data",
+      "created_at": "2025-06-24T10:07:25.267Z",
+      "tags": [
+        "DOCUMENTARY",
+        "SCREEN MEDIA"
+      ],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.95,
+        "reasoning": "Perfect match for documentary production"
+      },
+      "status": "potential"
+    },
+    {
+      "id": "fallback_1750759645268_2",
+      "name": "First Nations Stories Fund",
+      "description": "Supporting Indigenous storytellers to create authentic content that shares First Nations perspectives",
+      "amount_string": "$30,000 - $150,000",
+      "due_date": "2025-11-30",
+      "funder": "Australia Council for the Arts",
+      "source_url": "https://australiacouncil.gov.au/grants-and-funding/first-nations-arts",
+      "source": "fallback_data",
+      "created_at": "2025-06-24T10:07:25.268Z",
+      "tags": [
+        "FIRST NATIONS",
+        "DOCUMENTARY",
+        "ARTS"
+      ],
+      "eligibility": {
+        "category": "eligible",
+        "confidence": 0.9,
+        "reasoning": "Strong match for First Nations storytelling"
+      },
+      "status": "potential"
+    }
+  ],
+  "lastUpdated": "2025-06-24T10:07:25.563Z",
+  "total": 2,
+  "sources": [
+    "Screen Australia",
+    "Australia Council for the Arts"
+  ],
+  "scrapeDate": "2025-06-24T10:07:25.563Z"
+}

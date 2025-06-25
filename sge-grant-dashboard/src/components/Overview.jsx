@@ -1,236 +1,217 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { fetchGrants } from '../utils/api'
-import ConnectionTest from './ConnectionTest'
-import CollageHeaderBanner from './CollageHeaderBanner'
-import InsightsWidget from './InsightsWidget'
-import GrantCard from './GrantCard'
-import './Overview.css'
+import React, { useState, useEffect } from 'react';
+import './Overview.css';
+import GrantCard from './GrantCard';
+import ManualGrantEntry from './ManualGrantEntry';
 
-export default function Overview() {
+const Overview = () => {
+  const [grants, setGrants] = useState([])
   const [stats, setStats] = useState({
-    totalGrants: 0,
-    activeGrants: 0,
-    upcomingDeadlines: 0,
-    totalValue: 0
+    total: 0,
+    discovered: 0,
+    manual: 0,
+    eligible: 0,
+    deadlineSoon: 0
   })
-  const [recentGrants, setRecentGrants] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [insights, setInsights] = useState([])
+  const [showManualEntry, setShowManualEntry] = useState(false)
+
+  const fetchGrants = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/grants')
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const data = await response.json()
+      
+      setGrants(data.grants || [])
+      setStats(data.stats || {
+        total: 0,
+        discovered: 0,
+        manual: 0,
+        eligible: 0,
+        deadlineSoon: 0
+      })
+    } catch (err) {
+      console.error('Error fetching grants:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const loadDashboardData = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        
-        console.log('Fetching dashboard data...');
-        const grants = await fetchGrants();
-        console.log('Received grants for dashboard:', grants);
-        
-        // Handle both array and object responses
-        const grantsData = Array.isArray(grants) ? grants : (grants.grants || grants.data || []);
-        
-        const now = new Date()
-        const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
-        const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
-        
-        const stats = {
-          totalGrants: grantsData.length,
-          activeGrants: grantsData.filter(g => new Date(g.deadline || g.due_date) > now).length,
-          upcomingDeadlines: grantsData.filter(g => {
-            const deadline = new Date(g.deadline || g.due_date)
-            return deadline > now && deadline <= thirtyDaysFromNow
-          }).length,
-          totalValue: grantsData.reduce((sum, g) => sum + (parseInt(g.amount?.replace(/[^0-9]/g, '') || g.amount_string?.replace(/[^0-9]/g, '') || '0') || 0), 0)
-        }
-        
-        // Generate insights
-        const newInsights = []
-        
-        // Urgent deadlines
-        const urgentGrants = grantsData.filter(g => {
-          const deadline = new Date(g.deadline || g.due_date)
-          return deadline > now && deadline <= sevenDaysFromNow
-        })
-        
-        if (urgentGrants.length > 0) {
-          newInsights.push({
-            type: 'urgent',
-            title: `${urgentGrants.length} Grant${urgentGrants.length > 1 ? 's' : ''} Closing Soon`,
-            description: `Deadline within 7 days - don't miss out!`,
-            action: {
-              label: 'View Urgent',
-              onClick: () => window.location.href = '/grants'
-            }
-          })
-        }
-        
-        // High value opportunities
-        const highValueGrants = grantsData.filter(g => {
-          const amount = parseInt(g.amount?.replace(/[^0-9]/g, '') || g.amount_string?.replace(/[^0-9]/g, '') || '0')
-          return amount > 50000
-        })
-        
-        if (highValueGrants.length > 0) {
-          newInsights.push({
-            type: 'opportunity',
-            title: `${highValueGrants.length} High-Value Grant${highValueGrants.length > 1 ? 's' : ''}`,
-            description: `Grants over $50,000 available`,
-            action: {
-              label: 'Explore',
-              onClick: () => window.location.href = '/grants'
-            }
-          })
-        }
-        
-        // New grants
-        if (grantsData.length > 0) {
-          newInsights.push({
-            type: 'info',
-            title: 'Fresh Opportunities',
-            description: `${stats.totalGrants} total grants available for Shadow Goose Entertainment`,
-            action: {
-              label: 'Browse All',
-              onClick: () => window.location.href = '/grants'
-            }
-          })
-        }
-        
-        setStats(stats)
-        setRecentGrants(grantsData.slice(0, 6))
-        setInsights(newInsights)
-        setLoading(false)
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error)
-        setError('Failed to load dashboard data')
-        setLoading(false)
-      }
-    }
-
-    loadDashboardData()
+    fetchGrants()
   }, [])
 
-  const handleViewDetails = (grantId) => {
-    window.location.href = `/grants/${grantId}`
-  }
-
-  const handleFlagGrant = (grantId) => {
-    // TODO: Implement flag functionality
-    console.log('Flagging grant:', grantId)
-  }
-
-  const handleSaveGrant = (grantId) => {
-    // TODO: Implement save functionality
-    console.log('Saving grant:', grantId)
+  const handleGrantAdded = () => {
+    fetchGrants() // Refresh data
+    setShowManualEntry(false)
   }
 
   if (loading) {
     return (
       <div className="overview-loading">
         <div className="loading-spinner"></div>
-        <p>Loading your creative dashboard...</p>
+        <p>Loading grant data...</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="overview">
-        <h2>Dashboard Overview</h2>
-        <ConnectionTest />
-        <div className="error-message">
-          <p>{error}</p>
-          <button onClick={() => window.location.reload()} className="retry-btn">
-            Retry
-          </button>
-        </div>
+      <div className="overview-error">
+        <div className="error-icon">⚠️</div>
+        <h3>Error Loading Data</h3>
+        <p>{error}</p>
+        <button className="btn btn-primary" onClick={fetchGrants}>
+          Try Again
+        </button>
       </div>
     )
   }
 
-  const bannerStats = [
-    { value: stats.totalGrants, label: 'Total Grants' },
-    { value: stats.activeGrants, label: 'Active' },
-    { value: stats.upcomingDeadlines, label: 'Deadlines Soon' }
-  ]
+  const recentGrants = grants.slice(0, 6)
 
   return (
     <div className="overview">
-      {/* Collage Header Banner */}
-      <CollageHeaderBanner
-        title="Shadow Goose Entertainment"
-        subtitle="Grant Discovery Portal"
-        stats={bannerStats}
-      />
-      
-      <div className="overview-content">
-        <div className="main-content">
-          {/* Recent Grants Section */}
-          <div className="recent-grants-section">
-            <div className="section-header">
-              <h3>🎬 Creative Opportunities</h3>
-              <Link to="/grants" className="view-all-link">
-                View All Grants →
-              </Link>
-            </div>
-            
-            {recentGrants.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-icon">📽️</div>
-                <h4>No funding found... yet.</h4>
-                <p>Check back soon for new grant opportunities!</p>
-              </div>
-            ) : (
-              <div className="grants-grid">
-                {recentGrants.map(grant => (
-                  <GrantCard
-                    key={grant.id}
-                    grant={{
-                      id: grant.id,
-                      title: grant.name || grant.title,
-                      description: grant.description || grant.summary || 'No description available',
-                      amount: grant.amount || grant.amount_string || 'TBD',
-                      deadline: new Date(grant.deadline || grant.due_date).toLocaleDateString(),
-                      category: grant.category || grant.type || 'General',
-                      eligibility: grant.eligibility,
-                      tags: grant.tags || [],
-                      source: grant.funder || 'Unknown',
-                      sourceVerified: grant.source_verified || false
-                    }}
-                    onViewDetails={handleViewDetails}
-                    onFlag={handleFlagGrant}
-                    onSave={handleSaveGrant}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Sidebar with Insights */}
-        <div className="sidebar">
-          <InsightsWidget insights={insights} />
-          
-          {/* Quick Stats */}
-          <div className="quick-stats collage-card">
-            <h4>📊 Quick Stats</h4>
-            <div className="stat-item">
-              <span className="stat-label">Total Value</span>
-              <span className="stat-value">${stats.totalValue.toLocaleString()}</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">Success Rate</span>
-              <span className="stat-value">85%</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">Avg. Amount</span>
-              <span className="stat-value">${stats.totalGrants > 0 ? Math.round(stats.totalValue / stats.totalGrants).toLocaleString() : '0'}</span>
-            </div>
+      {/* Hero Section */}
+      <div className="overview-hero">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            Grant Discovery Dashboard
+          </h1>
+          <p className="hero-subtitle">
+            Discover and manage funding opportunities for your creative projects
+          </p>
+          <div className="hero-actions">
+            <button 
+              className="btn btn-primary btn-lg"
+              onClick={() => setShowManualEntry(true)}
+            >
+              <span>➕</span>
+              Add New Grant
+            </button>
+            <button className="btn btn-outline btn-lg">
+              <span>🔍</span>
+              Discover Grants
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Stats Grid */}
+      <div className="stats-grid">
+        <div className="stat-card primary">
+          <div className="stat-icon">📊</div>
+          <div className="stat-content">
+            <div className="stat-number">{stats.total}</div>
+            <div className="stat-label">Total Grants</div>
+          </div>
+        </div>
+        
+        <div className="stat-card success">
+          <div className="stat-icon">🎯</div>
+          <div className="stat-content">
+            <div className="stat-number">{stats.eligible}</div>
+            <div className="stat-label">Eligible</div>
+          </div>
+        </div>
+        
+        <div className="stat-card warning">
+          <div className="stat-icon">⏰</div>
+          <div className="stat-content">
+            <div className="stat-number">{stats.deadlineSoon}</div>
+            <div className="stat-label">Deadline Soon</div>
+          </div>
+        </div>
+        
+        <div className="stat-card info">
+          <div className="stat-icon">🤖</div>
+          <div className="stat-content">
+            <div className="stat-number">{stats.discovered}</div>
+            <div className="stat-label">AI Discovered</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Grants Section */}
+      <div className="recent-grants-section">
+        <div className="section-header">
+          <h2>Recent Opportunities</h2>
+          <p>Latest grants and funding opportunities</p>
+        </div>
+        
+        {recentGrants.length > 0 ? (
+          <div className="grants-grid">
+            {recentGrants.map((grant) => (
+              <GrantCard key={grant.id} grant={grant} />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon">📋</div>
+            <h3>No Grants Found</h3>
+            <p>Start by adding some grants manually or run the discovery tool.</p>
+            <button 
+              className="btn btn-primary"
+              onClick={() => setShowManualEntry(true)}
+            >
+              Add Your First Grant
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="quick-actions">
+        <h3>Quick Actions</h3>
+        <div className="actions-grid">
+          <button className="action-card">
+            <div className="action-icon">🔍</div>
+            <div className="action-content">
+              <h4>Run Discovery</h4>
+              <p>Find new grants automatically</p>
+            </div>
+          </button>
+          
+          <button className="action-card">
+            <div className="action-icon">📊</div>
+            <div className="action-content">
+              <h4>View Analytics</h4>
+              <p>See detailed statistics</p>
+            </div>
+          </button>
+          
+          <button className="action-card">
+            <div className="action-icon">📋</div>
+            <div className="action-content">
+              <h4>Export Data</h4>
+              <p>Download grant information</p>
+            </div>
+          </button>
+          
+          <button className="action-card">
+            <div className="action-icon">⚙️</div>
+            <div className="action-content">
+              <h4>Settings</h4>
+              <p>Configure preferences</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Manual Grant Entry Modal */}
+      {showManualEntry && (
+        <ManualGrantEntry
+          onClose={() => setShowManualEntry(false)}
+          onGrantAdded={handleGrantAdded}
+        />
+      )}
     </div>
   )
-} 
+}
+
+export default Overview 
