@@ -2,8 +2,8 @@ services:
   # Backend API Service
   - type: web
     name: sge-grant-backend
-    runtime: node
-    buildCommand: npm ci
+    env: node
+    buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /health
     envVars:
@@ -15,32 +15,15 @@ services:
         value: admin@shadowgoose.com
       - key: EMAIL_FROM
         value: noreply@shadowgoose.com
-    buildFilter:
-      paths:
-        - server.js
-        - api/**
-        - package.json
-        - package-lock.json
-      ignoredPaths:
-        - sge-grant-dashboard/**
-        - scripts/**
-        - mock/**
 
   # Frontend React Service  
   - type: web
     name: sge-grant-frontend
-    runtime: node
-    buildCommand: cd sge-grant-dashboard && npm ci && npm run build
+    env: node
+    buildCommand: cd sge-grant-dashboard && npm install && npm run build
     startCommand: cd sge-grant-dashboard && npm run preview
-    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
       - key: VITE_API_URL
-        value: https://sge-grant-backend.onrender.com
-    buildFilter:
-      paths:
-        - sge-grant-dashboard/**
-      ignoredPaths:
-        - sge-grant-dashboard/src/**/*.test.*
-        - sge-grant-dashboard/src/**/*.spec.* 
+        value: https://sge-grant-backend.onrender.com 
