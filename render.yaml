@@ -1,14 +1,21 @@
 services:
-  # Backend API Service
+  # Backend Node.js Web Service
   - type: web
     name: grant-iq-pro-backend
+    runtime: node
     env: node
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: npm install --production=false
+    startCommand: npm start
     healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
 
   # Frontend Static Site
   - type: static
     name: grant-iq-pro-frontend
     buildCommand: cd sge-grant-dashboard && npm install && npm run build
-    staticPublishPath: ./sge-grant-dashboard/dist 
+    staticPublishPath: ./sge-grant-dashboard/dist
+    envVars:
+      - key: NODE_ENV
+        value: production 

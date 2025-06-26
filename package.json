@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "Grant IQ Pro Edition - AI-powered grant discovery and management platform backend",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "start": "node server.js",
+    "build": "echo 'Backend build complete'",
     "dev": "nodemon server.js",
     "discover": "node scripts/grant_discovery_scraper.js",
     "discover:manual": "node scripts/grant_discovery_scheduler.js manual",
@@ -36,6 +41,6 @@
     "puppeteer": "^24.10.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^2.0.22"
   }
 }
