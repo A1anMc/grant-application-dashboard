@@ -4,6 +4,17 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Ignore chart.js import warnings
+        if (warning.code === 'UNRESOLVED_IMPORT' && warning.source === 'chart.js') {
+          return
+        }
+        warn(warning)
+      }
+    }
+  },
   server: {
     proxy: {
       '/api': {

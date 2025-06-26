@@ -3,31 +3,12 @@ services:
   - type: web
     name: grant-iq-pro-backend
     env: node
-    region: oregon
-    plan: free
-    buildCommand: npm ci
+    buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /health
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 3000
-      - key: NOTIFICATION_EMAIL
-        value: admin@grantiqpro.com
-      - key: EMAIL_FROM
-        value: noreply@grantiqpro.com
 
-  # Frontend React Service  
-  - type: web
+  # Frontend Static Site
+  - type: static
     name: grant-iq-pro-frontend
-    env: node
-    region: oregon
-    plan: free
-    buildCommand: cd sge-grant-dashboard && npm ci && npm run build
-    startCommand: cd sge-grant-dashboard && npm run preview -- --port $PORT --host 0.0.0.0
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: VITE_API_URL
-        value: https://grant-iq-pro-backend.onrender.com 
+    buildCommand: cd sge-grant-dashboard && npm install && npm run build
+    staticPublishPath: ./sge-grant-dashboard/dist 
