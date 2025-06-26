@@ -1,3 +1,9 @@
-# This project does not use Docker
-# Render should use render.yaml for deployment
+# This project does NOT use Docker
+# Render should use Node.js buildpack and render.yaml
+# If you see this file, DO NOT attempt Docker build
+
+# Block everything from Docker detection
 *
+**/*
+Dockerfile*
+docker-compose*
