@@ -3,7 +3,9 @@ services:
   - type: web
     name: grant-iq-pro-backend
     env: node
-    buildCommand: npm install
+    region: oregon
+    plan: free
+    buildCommand: npm ci
     startCommand: node server.js
     healthCheckPath: /health
     envVars:
@@ -20,8 +22,10 @@ services:
   - type: web
     name: grant-iq-pro-frontend
     env: node
-    buildCommand: cd sge-grant-dashboard && npm install && npm run build
-    startCommand: cd sge-grant-dashboard && npm run preview
+    region: oregon
+    plan: free
+    buildCommand: cd sge-grant-dashboard && npm ci && npm run build
+    startCommand: cd sge-grant-dashboard && npm run preview -- --port $PORT --host 0.0.0.0
     envVars:
       - key: NODE_ENV
         value: production

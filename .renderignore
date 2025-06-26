@@ -1,0 +1,18 @@
+# Ignore Docker files for Render deployment
+Dockerfile*
+docker-compose.yml
+docker-entrypoint.sh
+.dockerignore
+
+# Ignore local development files
+.env
+.DS_Store
+node_modules/
+*.log
+
+# Ignore backup and temporary files
+*.backup
+*.bak
+*.tmp
+GPT_Check_Grant_IQ_Pro/
+*.zip
