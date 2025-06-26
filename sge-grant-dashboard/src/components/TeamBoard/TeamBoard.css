@@ -1,0 +1,216 @@
+.team-board {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.board-header {
+  margin-bottom: var(--spacing-6);
+}
+
+.board-header h2 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-2xl);
+}
+
+.board-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.team-columns {
+  display: grid;
+  grid-template-columns: 300px repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-4);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-4);
+}
+
+.team-column {
+  background: var(--surface-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-4);
+  min-height: 400px;
+  border: 1px solid var(--border-color);
+}
+
+.unassigned-column {
+  background: var(--warning-50);
+  border-color: var(--warning-200);
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.member-avatar {
+  font-size: var(--font-size-2xl);
+}
+
+.member-info h3 {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.member-info p {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.task-count {
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.task-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-4);
+  transition: all 0.3s ease;
+}
+
+.task-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.task-card.unassigned {
+  border-left: 4px solid var(--warning-color);
+}
+
+.task-card.todo {
+  border-left: 4px solid var(--info-color);
+}
+
+.task-card.in_progress {
+  border-left: 4px solid var(--primary-color);
+}
+
+.task-card.review {
+  border-left: 4px solid var(--warning-color);
+}
+
+.task-card.completed {
+  border-left: 4px solid var(--success-color);
+  opacity: 0.8;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+}
+
+.priority-badge {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
+.priority-badge.high {
+  background: var(--error-100);
+  color: var(--error-700);
+}
+
+.priority-badge.medium {
+  background: var(--warning-100);
+  color: var(--warning-700);
+}
+
+.priority-badge.low {
+  background: var(--success-100);
+  color: var(--success-700);
+}
+
+.category-badge {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+}
+
+.task-card h4 {
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--spacing-2);
+  line-height: 1.4;
+}
+
+.task-card p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-3);
+  line-height: 1.4;
+}
+
+.task-meta {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+}
+
+.time-estimate,
+.task-source {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  background: var(--neutral-50);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-sm);
+}
+
+.task-actions select,
+.task-status-controls select {
+  width: 100%;
+  padding: var(--spacing-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  background: white;
+}
+
+.task-actions select:focus,
+.task-status-controls select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+@media (max-width: 768px) {
+  .team-columns {
+    grid-template-columns: 1fr;
+  }
+  
+  .team-column {
+    min-height: auto;
+  }
+}

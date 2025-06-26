@@ -80,7 +80,7 @@ const ManualGrantEntry = ({ onGrantAdded, onClose }) => {
                 added_by: formData.added_by || 'Dashboard User'
             };
 
-            const response = await fetch('/api/grants/manual', {
+            const response = await fetch('/api/manual-grants', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

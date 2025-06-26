@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { fetchGrants } from '../utils/api'
 import GrantFilterSidebar from './GrantFilterSidebar'
 import GrantCard from './GrantCard'
 import StickyNoteModal from './StickyNoteModal'

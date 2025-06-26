@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 require('dotenv').config();
 const NotificationService = require('./api/notifications');
 
@@ -10,13 +12,54 @@ const PORT = process.env.PORT || 3000;
 // Initialize notification service
 const notificationService = new NotificationService();
 
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  crossOriginEmbedderPolicy: false
+}));
+
+// Rate limiting
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests from this IP, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 auth requests per windowMs
+  message: { error: 'Too many authentication attempts, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const uploadLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // limit each IP to 10 uploads per hour
+  message: { error: 'Too many upload attempts, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply general rate limiting to all requests
+app.use(generalLimiter);
+
 // CORS configuration for React frontend
 const allowedOrigins = [
   'http://localhost:5173', 
   'http://localhost:5174',
   'http://localhost:3000',
   process.env.CORS_ORIGIN,
-  'https://sge-grant-frontend.onrender.com'
+  'https://grant-iq-pro-frontend.onrender.com'
 ].filter(Boolean);
 
 app.use(cors({
@@ -26,8 +69,35 @@ app.use(cors({
 
 app.use(express.json());
 
+// API routes with specific rate limiting
+app.use('/api/auth', authLimiter);
+app.use('/api/pdf', uploadLimiter);
+app.use('/api/documents', uploadLimiter);
+
 // API routes
 app.use('/api/grants', require('./api/grants'));
+app.use('/api/pdf', require('./api/pdf'));
+app.use('/api/tasks', require('./api/tasks'));
+
+// Authentication API
+const { router: authApi } = require('./api/auth');
+app.use('/api/auth', authApi);
+
+// Documents API
+const documentsApi = require('./api/documents');
+app.use('/api/documents', documentsApi);
+
+// Grant Details API
+const grantDetailsApi = require('./api/grant-details');
+app.use('/api/grant-details', grantDetailsApi);
+
+// Collaboration API
+const collaborationApi = require('./api/collaboration');
+app.use('/api/collaboration', collaborationApi);
+
+// Analytics API
+const analyticsApi = require('./api/analytics');
+app.use('/api/analytics', analyticsApi);
 
 // Eligibility assessment endpoint
 const eligibilityAssessor = require('./api/eligibility');
@@ -199,17 +269,58 @@ app.post('/api/notifications/check-new-grants', async (req, res) => {
 // Health check endpoint
 app.get('/health', (_, res) => res.json({ status: 'ok' }));
 
-// Serve static HTML frontend
-app.use(express.static(__dirname));
-app.get('*', (_, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// API root endpoint
+app.get('/', (_, res) => {
+  res.json({ 
+    message: 'Grant IQ Pro Edition API Server',
+    version: '1.0.0',
+    endpoints: ['/api/grants', '/api/pdf', '/api/tasks', '/api/notifications']
+  });
 });
 
+// Centralized error handling middleware
+const errorHandler = (err, req, res, next) => {
+  console.error('Error:', err);
+
+  // Multer errors
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({ error: 'File too large' });
+  }
+
+  // Validation errors
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({ 
+      error: 'Validation failed',
+      details: err.details 
+    });
+  }
+
+  // JWT errors
+  if (err.name === 'JsonWebTokenError') {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+
+  if (err.name === 'TokenExpiredError') {
+    return res.status(401).json({ error: 'Token expired' });
+  }
+
+  // Default error
+  res.status(500).json({ 
+    error: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : err.message 
+  });
+};
+
+app.use(errorHandler);
+
 app.listen(PORT, () => {
-  console.log(`✅ SGE Grant Portal running at http://localhost:${PORT}`);
-  console.log(`📊 API available at http://localhost:${PORT}/api/grants`);
-  console.log(`🔔 Notifications API at http://localhost:${PORT}/api/notifications`);
-  console.log(`🎯 React frontend should connect from http://localhost:5173`);
+  console.log(`🚀 Grant IQ Pro Edition server running on port ${PORT}`);
+  console.log(`🔒 Security middleware active`);
+  console.log(`📊 Analytics: http://localhost:${PORT}/api/analytics/dashboard`);
+  console.log(`🎯 Grants: http://localhost:${PORT}/api/grants`);
+  console.log(`📄 PDF Processing: http://localhost:${PORT}/api/pdf`);
+  console.log(`✅ Health Check: http://localhost:${PORT}/health`);
   
   // Initialize notifications with a welcome message
   setTimeout(() => {
@@ -225,4 +336,4 @@ app.listen(PORT, () => {
     notificationService.checkDeadlineAlerts();
     notificationService.checkNewGrants();
   }, 2000);
-}); 
+});

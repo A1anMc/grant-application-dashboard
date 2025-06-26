@@ -1,32 +1,23 @@
-# 🚀 Shadow Goose Grant Portal - Production Deployment Guide
+# 🚀 Grant IQ Pro Edition - Production Deployment Guide
 
-## ✅ **DEPLOYMENT READY STATUS**
+**Status**: ✅ **PRODUCTION READY** - All systems configured and tested
 
-Your system is now **READY FOR DEPLOYMENT** with the following fixes applied:
+## 🎯 **Deployment Overview**
 
-### **🔧 Recent Fixes Applied:**
-- ✅ Updated `render.yaml` for correct project structure
-- ✅ Added environment variable support
-- ✅ Fixed API configuration for production
-- ✅ Added CORS configuration for production domains
-- ✅ Created production environment template
+Your Grant IQ Pro Edition is configured for seamless deployment on **Render.com** with automatic builds, environment management, and production-grade infrastructure.
 
----
+## 📋 **Services Configuration**
 
-## 🎯 **Two-Service Architecture**
+### **Backend Service** (`grant-iq-pro-backend`)
+- **Type**: Web Service (Node.js)
+- **Build**: `npm install` 
+- **Start**: `node server.js`
+- **URL**: `https://grant-iq-pro-backend.onrender.com`
 
-### **Backend Service** (`sge-grant-backend`)
-- **Purpose**: API server, notifications, grant management
-- **Port**: 3000
-- **Health Check**: `/health`
-- **URL**: `https://sge-grant-backend.onrender.com`
-
-### **Frontend Service** (`sge-grant-frontend`)  
-- **Purpose**: React dashboard, user interface
-- **Build**: Vite production build
-- **URL**: `https://sge-grant-frontend.onrender.com`
-
----
+### **Frontend Service** (`grant-iq-pro-frontend`)
+- **Type**: Web Service (Static Site)
+- **Build**: `cd sge-grant-dashboard && npm install && npm run build`
+- **URL**: `https://grant-iq-pro-frontend.onrender.com`
 
 ## 🚀 **Deploy to Render (Recommended)**
 
@@ -49,7 +40,7 @@ NODE_ENV=production
 PORT=3000
 NOTIFICATION_EMAIL=admin@shadowgoose.com
 EMAIL_FROM=noreply@shadowgoose.com
-CORS_ORIGIN=https://sge-grant-frontend.onrender.com
+CORS_ORIGIN=https://grant-iq-pro-frontend.onrender.com
 ```
 
 ### **Step 3: Deploy Frontend**
@@ -62,7 +53,7 @@ The frontend service will automatically:
 For the **frontend service**, set:
 ```env
 NODE_ENV=production
-VITE_API_URL=https://sge-grant-backend.onrender.com
+VITE_API_URL=https://grant-iq-pro-backend.onrender.com
 ```
 
 ---
@@ -75,7 +66,7 @@ NODE_ENV=production
 PORT=3000
 NOTIFICATION_EMAIL=admin@shadowgoose.com
 EMAIL_FROM=noreply@shadowgoose.com
-CORS_ORIGIN=https://sge-grant-frontend.onrender.com
+CORS_ORIGIN=https://grant-iq-pro-frontend.onrender.com
 
 # Optional: Email Service (for real notifications)
 SMTP_HOST=smtp.gmail.com
@@ -86,7 +77,7 @@ SMTP_PASS=your-app-password
 
 ### **Frontend (Render Environment Variables)**
 ```env
-VITE_API_URL=https://sge-grant-backend.onrender.com
+VITE_API_URL=https://grant-iq-pro-backend.onrender.com
 VITE_APP_NAME=Shadow Goose Grant Portal
 ```
 
@@ -122,9 +113,9 @@ VITE_APP_NAME=Shadow Goose Grant Portal
 - Modern responsive UI
 
 ### **🎯 Production URLs:**
-- **Frontend**: `https://sge-grant-frontend.onrender.com`
-- **Backend API**: `https://sge-grant-backend.onrender.com/api/grants`
-- **Health Check**: `https://sge-grant-backend.onrender.com/health`
+- **Frontend**: `https://grant-iq-pro-frontend.onrender.com`
+- **Backend API**: `https://grant-iq-pro-backend.onrender.com/api/grants`
+- **Health Check**: `https://grant-iq-pro-backend.onrender.com/health`
 
 ---
 
@@ -165,8 +156,8 @@ git push origin main
 - Total setup time: ~10-15 minutes
 
 **You'll have two live URLs:**
-- **Main App**: `https://sge-grant-frontend.onrender.com`
-- **API**: `https://sge-grant-backend.onrender.com`
+- **Main App**: `https://grant-iq-pro-frontend.onrender.com`
+- **API**: `https://grant-iq-pro-backend.onrender.com`
 
 ---
 
@@ -179,4 +170,4 @@ After deployment, you can:
 4. **Customize branding and content**
 5. **Scale as needed**
 
-**Your Shadow Goose Grant Management System is production-ready!** 🚀 
+**Your Grant IQ Pro Edition Grant Management System is production-ready!** 🚀 

@@ -4,12 +4,27 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Production builds
+/build
+/dist
+sge-grant-dashboard/dist/
+
 # Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Runtime files
+*.log
+*.pid
+grant-iq-pro.pid
+
+# Uploads and temporary files
+uploads/
+temp/
+*.tmp
 
 # OS generated files
 .DS_Store
@@ -25,20 +40,42 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+*~
 
-# Logs
-logs
-*.log
+# Package archives
+*.zip
+*.tar.gz
+*.rar
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Backup files
+*.bak
+*.backup
+*-backup.*
+GPT_Check_Grant_IQ_Pro/
+GPT_Check_Grant_IQ_Pro.zip
+GPT_Check_Grant_IQ_Pro_Security_Audit.zip
 
-# Coverage directory used by tools like istanbul
-coverage/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
 
-# Temporary folders
-tmp/
-temp/ 
+# Database
+*.db
+*.sqlite
+
+# Security audit files
+SECURITY_AUDIT_SUMMARY.txt
+
+# Old/deprecated files
+app-backup*.js
+index-backup*.html
+start-app.sh
+style.css
+server.js.bak
+api/pdf.js.backup
+api/pdf-secure.js

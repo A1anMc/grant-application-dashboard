@@ -81,7 +81,7 @@ class NotificationService {
       }
 
       const mailOptions = {
-        from: process.env.EMAIL_FROM || 'Shadow Goose Grants <noreply@shadowgoose.com>',
+        from: process.env.EMAIL_FROM || 'Grant IQ Pro <noreply@grantiqpro.com>',
         to,
         subject,
         html: htmlContent,
@@ -184,7 +184,7 @@ class NotificationService {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, #3B82F6, #1D4ED8); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px;">
           <h1 style="margin: 0; font-size: 28px;">⏰ Grant Deadline Alert</h1>
-          <p style="margin: 10px 0 0 0; font-size: 18px; opacity: 0.9;">Shadow Goose Entertainment</p>
+          <p style="margin: 10px 0 0 0; font-size: 18px; opacity: 0.9;">Grant IQ Pro Edition</p>
         </div>
         
         <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border-left: 4px solid ${daysUntil === 1 ? '#EF4444' : '#F59E0B'}; margin-bottom: 25px;">
@@ -218,7 +218,7 @@ class NotificationService {
 
         <div style="background: #f1f5f9; padding: 20px; border-radius: 8px; text-align: center;">
           <p style="color: #64748b; font-size: 12px; margin: 0;">
-            This is an automated notification from Shadow Goose Grant Management System.<br>
+            This is an automated notification from Grant IQ Pro Edition Grant Management System.<br>
             Visit your dashboard to manage notification preferences.
           </p>
         </div>
@@ -238,7 +238,7 @@ Grant Details:
 
 Visit http://localhost:5174 to view full details.
 
-This is an automated notification from Shadow Goose Grant Management System.
+This is an automated notification from Grant IQ Pro Edition Grant Management System.
     `;
 
     return await this.sendEmail(
@@ -319,7 +319,7 @@ This is an automated notification from Shadow Goose Grant Management System.
 
         <div style="background: #f1f5f9; padding: 20px; border-radius: 8px; text-align: center;">
           <p style="color: #64748b; font-size: 12px; margin: 0;">
-            This is an automated notification from Shadow Goose Grant Management System.
+            This is an automated notification from Grant IQ Pro Edition Grant Management System.
           </p>
         </div>
       </div>

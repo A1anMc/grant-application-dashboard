@@ -171,8 +171,71 @@
       },
       "source": "manual_entry",
       "added_by": "system"
+    },
+    {
+      "id": "manual_1750850853067_mwfi4qv5s",
+      "name": "API Test Grant",
+      "funder": "API Test Foundation",
+      "description": "Testing the manual grant API after fixing conflicts",
+      "amount_string": "$5,000",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-25T11:27:33.067Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "Debug Component"
+    },
+    {
+      "id": "manual_1750852617810_xv4m8yl14",
+      "name": "Frontend Test Grant",
+      "funder": "Frontend Test Foundation",
+      "description": "Testing the frontend proxy after fixing the port issue",
+      "amount_string": "$2,500",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-25T11:56:57.810Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "System Fix"
+    },
+    {
+      "id": "manual_1750852918012_2ccschl4o",
+      "name": "Status Test",
+      "funder": "Test",
+      "description": "Status check",
+      "amount_string": "$1",
+      "due_date": "2025-12-31",
+      "status": "potential",
+      "source_url": "",
+      "created_at": "2025-06-25T12:01:58.013Z",
+      "tags": [
+        "GENERAL"
+      ],
+      "eligibility": {
+        "category": "potential",
+        "confidence": 0.5,
+        "reasoning": "Manual entry - requires review"
+      },
+      "source": "manual_entry",
+      "added_by": "Status Check"
     }
   ],
-  "lastUpdated": "2025-06-25T09:55:19.405Z",
-  "total": 8
+  "lastUpdated": "2025-06-25T12:01:58.013Z",
+  "total": 11
 }

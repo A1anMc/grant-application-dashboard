@@ -1,110 +1,138 @@
 import React, { useState, useEffect } from 'react';
 
 const DebugInfo = () => {
-    const [apiStatus, setApiStatus] = useState('Testing...');
-    const [grantsCount, setGrantsCount] = useState(0);
+  const [debugData, setDebugData] = useState({
+    apiConnectivity: null,
+    grantsData: null,
+    notificationsData: null,
+    errors: []
+  });
 
-    useEffect(() => {
-        const testAPI = async () => {
-            try {
-                console.log('🔍 Debug: Testing API connection...');
-                const response = await fetch('/api/grants');
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('🔍 Debug: API Response:', data);
-                
-                setApiStatus('✅ Connected');
-                setGrantsCount(data.stats.total);
-            } catch (error) {
-                console.error('🔍 Debug: API Error:', error);
-                setApiStatus(`❌ Error: ${error.message}`);
-            }
-        };
+  useEffect(() => {
+    runDiagnostics();
+  }, []);
 
-        testAPI();
-    }, []);
+  const runDiagnostics = async () => {
+    const errors = [];
+    let apiConnectivity = false;
+    let grantsData = null;
+    let notificationsData = null;
 
-    const testManualAPI = async () => {
-        console.log('🔍 Debug: Testing manual grant API...');
-        try {
-            const testGrant = {
-                name: 'Debug Test Grant',
-                funder: 'Debug Foundation',
-                description: 'This is a test grant to debug the manual entry system',
-                amount: '$1,000',
-                deadline: '2025-12-31',
-                added_by: 'Debug Component'
-            };
+    // Test API connectivity
+    try {
+      const response = await fetch('/api/grants');
+      if (response.ok) {
+        apiConnectivity = true;
+        grantsData = await response.json();
+      } else {
+        errors.push(`Grants API error: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      errors.push(`Grants API connection failed: ${error.message}`);
+    }
 
-            console.log('🔍 Debug: Sending test grant:', testGrant);
+    // Test notifications API
+    try {
+      const response = await fetch('/api/notifications');
+      if (response.ok) {
+        notificationsData = await response.json();
+      } else {
+        errors.push(`Notifications API error: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      errors.push(`Notifications API connection failed: ${error.message}`);
+    }
 
-            const response = await fetch('/api/grants/manual', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(testGrant),
-            });
+    // Test Chart.js availability
+    try {
+      const ChartJS = await import('chart.js');
+      if (!ChartJS) {
+        errors.push('Chart.js not properly imported');
+      }
+    } catch (error) {
+      errors.push(`Chart.js import error: ${error.message}`);
+    }
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || `HTTP ${response.status}`);
-            }
+    setDebugData({
+      apiConnectivity,
+      grantsData,
+      notificationsData,
+      errors
+    });
+  };
 
-            const newGrant = await response.json();
-            console.log('🔍 Debug: Manual grant API success:', newGrant);
-            alert(`✅ Manual grant API works! Added: ${newGrant.name}`);
-            
-            // Refresh page to see new grant
-            window.location.reload();
-        } catch (error) {
-            console.error('🔍 Debug: Manual grant API error:', error);
-            alert(`❌ Manual grant API error: ${error.message}`);
-        }
-    };
+  const testFunction = (functionName, testFn) => {
+    try {
+      testFn();
+      return { status: 'success', error: null };
+    } catch (error) {
+      return { status: 'error', error: error.message };
+    }
+  };
 
-    return (
-        <div style={{
-            position: 'fixed',
-            top: '10px',
-            right: '10px',
-            background: '#ffffff',
-            padding: '15px',
-            borderRadius: '8px',
-            border: '2px solid #333333',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-            zIndex: 9999,
-            fontFamily: 'monospace',
-            fontSize: '12px',
-            maxWidth: '300px',
-            color: '#000000'
-        }}>
-            <h4 style={{ margin: '0 0 10px 0', color: '#000000' }}>🔍 Debug Panel</h4>
-            <div style={{ color: '#000000' }}><strong>API Status:</strong> {apiStatus}</div>
-            <div style={{ color: '#000000' }}><strong>Grants Count:</strong> {grantsCount}</div>
-            <button 
-                onClick={testManualAPI}
-                style={{
-                    marginTop: '10px',
-                    padding: '5px 10px',
-                    background: '#007acc',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                }}
-            >
-                Test Manual Grant API
-            </button>
-            <div style={{ marginTop: '10px', fontSize: '10px', color: '#666666' }}>
-                Check browser console for detailed logs
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      background: 'rgba(0, 0, 0, 0.9)',
+      color: 'white',
+      padding: '20px',
+      borderRadius: '8px',
+      maxWidth: '400px',
+      maxHeight: '80vh',
+      overflow: 'auto',
+      zIndex: 9999,
+      fontSize: '12px',
+      fontFamily: 'monospace'
+    }}>
+      <h3 style={{ margin: '0 0 15px 0', color: '#4ade80' }}>🔧 Debug Panel</h3>
+      
+      <div style={{ marginBottom: '15px' }}>
+        <h4 style={{ color: '#60a5fa', margin: '0 0 5px 0' }}>API Connectivity</h4>
+        <div>Grants API: {debugData.apiConnectivity ? '✅ Connected' : '❌ Failed'}</div>
+        <div>Notifications API: {debugData.notificationsData ? '✅ Connected' : '❌ Failed'}</div>
+      </div>
+
+      <div style={{ marginBottom: '15px' }}>
+        <h4 style={{ color: '#60a5fa', margin: '0 0 5px 0' }}>Data Status</h4>
+        <div>Grants Count: {debugData.grantsData?.grants?.length || 0}</div>
+        <div>Notifications Count: {debugData.notificationsData?.notifications?.length || 0}</div>
+      </div>
+
+      <div style={{ marginBottom: '15px' }}>
+        <h4 style={{ color: '#60a5fa', margin: '0 0 5px 0' }}>Component Tests</h4>
+        <div>React: {React ? '✅' : '❌'}</div>
+        <div>React DOM: {testFunction('ReactDOM', () => import('react-dom')).status === 'success' ? '✅' : '❌'}</div>
+      </div>
+
+      {debugData.errors.length > 0 && (
+        <div>
+          <h4 style={{ color: '#ef4444', margin: '0 0 5px 0' }}>Errors</h4>
+          {debugData.errors.map((error, index) => (
+            <div key={index} style={{ color: '#fca5a5', marginBottom: '5px' }}>
+              • {error}
             </div>
+          ))}
         </div>
-    );
+      )}
+
+      <button 
+        onClick={runDiagnostics}
+        style={{
+          background: '#22c55e',
+          color: 'white',
+          border: 'none',
+          padding: '8px 12px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          marginTop: '10px'
+        }}
+      >
+        🔄 Refresh Tests
+      </button>
+    </div>
+  );
 };
 
 export default DebugInfo; 

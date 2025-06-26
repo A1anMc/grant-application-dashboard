@@ -1,0 +1,35 @@
+[
+  {
+    "id": "1",
+    "username": "alan",
+    "email": "alan@shadowgoose.com",
+    "password": "$2b$10$R8zQmyBWnaDoXQ3FF3bEe.RJBN1LozD.ais2oYrVGdBjfHCCyDFb6",
+    "role": "admin",
+    "name": "Alan McCarthy",
+    "specialization": "Legal & Rights",
+    "avatar": "👨‍💼",
+    "created_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "username": "ursula",
+    "email": "ursula@shadowgoose.com",
+    "password": "$2b$10$R8zQmyBWnaDoXQ3FF3bEe.RJBN1LozD.ais2oYrVGdBjfHCCyDFb6",
+    "role": "manager",
+    "name": "Ursula",
+    "specialization": "Admin & Submissions",
+    "avatar": "👩‍💼",
+    "created_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "username": "sham",
+    "email": "sham@shadowgoose.com",
+    "password": "$2b$10$R8zQmyBWnaDoXQ3FF3bEe.RJBN1LozD.ais2oYrVGdBjfHCCyDFb6",
+    "role": "collaborator",
+    "name": "Sham",
+    "specialization": "Finance & Budget",
+    "avatar": "👨‍💰",
+    "created_at": "2024-01-01T00:00:00.000Z"
+  }
+]

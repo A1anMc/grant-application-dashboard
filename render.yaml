@@ -1,7 +1,7 @@
 services:
   # Backend API Service
   - type: web
-    name: sge-grant-backend
+    name: grant-iq-pro-backend
     env: node
     buildCommand: npm install
     startCommand: node server.js
@@ -12,13 +12,13 @@ services:
       - key: PORT
         value: 3000
       - key: NOTIFICATION_EMAIL
-        value: admin@shadowgoose.com
+        value: admin@grantiqpro.com
       - key: EMAIL_FROM
-        value: noreply@shadowgoose.com
+        value: noreply@grantiqpro.com
 
   # Frontend React Service  
   - type: web
-    name: sge-grant-frontend
+    name: grant-iq-pro-frontend
     env: node
     buildCommand: cd sge-grant-dashboard && npm install && npm run build
     startCommand: cd sge-grant-dashboard && npm run preview
@@ -26,4 +26,4 @@ services:
       - key: NODE_ENV
         value: production
       - key: VITE_API_URL
-        value: https://sge-grant-backend.onrender.com 
+        value: https://grant-iq-pro-backend.onrender.com 

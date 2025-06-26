@@ -5,7 +5,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
-
+const { validate, sanitize, schemas } = require('../middleware/validation');
 class ManualGrantManager {
     constructor() {
         this.manualGrantsFile = path.join(__dirname, '../mock/manual_grants.json');
@@ -34,21 +34,11 @@ class ManualGrantManager {
     }
 
     validateGrant(grant) {
-        const required = ['name', 'funder', 'description'];
-        const missing = required.filter(field => !grant[field] || grant[field].trim() === '');
-        
-        if (missing.length > 0) {
-            throw new Error(`Missing required fields: ${missing.join(', ')}`);
+        // Use Joi schema for validation
+        const { error } = schemas.grant.validate(grant);
+        if (error) {
+            throw new Error(`Validation failed: ${error.details.map(d => d.message).join(', ')}`);
         }
-
-        // Validate deadline format if provided
-        if (grant.deadline && grant.deadline !== 'Ongoing') {
-            const date = new Date(grant.deadline);
-            if (isNaN(date.getTime())) {
-                throw new Error('Invalid deadline format. Use YYYY-MM-DD or "Ongoing"');
-            }
-        }
-
         return true;
     }
 

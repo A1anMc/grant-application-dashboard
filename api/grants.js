@@ -78,6 +78,8 @@ function calculateStats(grants) {
         mock: 0,
         discovered: 0,
         manual: 0,
+        eligible: 0,
+        deadlineSoon: 0,
         byEligibility: {
             eligible: 0,
             eligible_with_auspice: 0,
@@ -106,6 +108,11 @@ function calculateStats(grants) {
         if (stats.byEligibility.hasOwnProperty(eligibility)) {
             stats.byEligibility[eligibility]++;
         }
+        
+        // Count eligible grants for frontend
+        if (eligibility === 'eligible') {
+            stats.eligible++;
+        }
 
         // Count by source
         const source = grant.funder || grant.source || 'unknown';
@@ -116,6 +123,7 @@ function calculateStats(grants) {
             const deadline = new Date(grant.due_date);
             if (deadline > now && deadline <= thirtyDaysFromNow) {
                 stats.upcomingDeadlines++;
+                stats.deadlineSoon++;
             }
         }
     });
@@ -365,15 +373,39 @@ class GrantsAPI {
 
 const grantsAPI = new GrantsAPI();
 
-// GET /api/grants - Get all grants with optional filters
-router.get('/', async (req, res) => {
+// Pagination middleware
+const paginationDefaults = (req, res, next) => {
+  req.pagination = {
+    page: parseInt(req.query.page) || 1,
+    limit: Math.min(parseInt(req.query.limit) || 20, 100), // Max 100 items
+    offset: ((parseInt(req.query.page) || 1) - 1) * (parseInt(req.query.limit) || 20)
+  };
+  next();
+};
+
+// GET /api/grants - Get all grants with optional filters and pagination
+router.get('/', paginationDefaults, async (req, res) => {
     try {
-        const grants = await getAllGrants();
-        const stats = calculateStats(grants);
+        const allGrants = await getAllGrants();
+        const { page, limit, offset } = req.pagination;
+        
+        // Apply pagination
+        const totalItems = allGrants.length;
+        const paginatedGrants = allGrants.slice(offset, offset + limit);
+        
+        const stats = calculateStats(allGrants); // Use all grants for stats
         
         res.json({
-            grants,
+            grants: paginatedGrants,
             stats,
+            pagination: {
+                page,
+                limit,
+                totalItems,
+                totalPages: Math.ceil(totalItems / limit),
+                hasNext: page * limit < totalItems,
+                hasPrev: page > 1
+            },
             filters: []
         });
     } catch (error) {
